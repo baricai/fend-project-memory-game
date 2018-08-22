@@ -1,23 +1,18 @@
 /*
- * Create a list that holds all of your cards
+ * List of all cards
  */
 
 let cardsBottoms = ['fa-diamond', 'fa-paper-plane-o', 'fa-anchor', 'fa-bolt', 'fa-cube', 'fa-anchor', 'fa-leaf', 'fa-bicycle', 'fa-diamond', 'fa-bomb', 'fa-leaf', 'fa-bomb', 'fa-bolt', 'fa-bicycle', 'fa-paper-plane-o', 'fa-cube'];
 
-let openCards = []; //list storing currently uncovered cards
-let matchedCards = []; //list storing the figures that were matched already
-let score = 3; //current score
+let openCards = []; 
+let matchedCards = []; 
+let score = 3; 
 let counter = 0;
 let isFirstClick = true;
 let currentBottoms = [];
-/*
- * Display the cards on the page
- *   - shuffle the list of cards using the provided "shuffle" method below
- *   - loop through each card and create its HTML
- *   - add each card's HTML to the page
- */
 
- //Timer for the game 
+
+
 var timerVar = setInterval(countTimer, 1000);
 var totalSeconds = 0;
 function countTimer() {
@@ -37,16 +32,15 @@ function resetTimer() {
 
  function newGame() {
  	let cards = $('.card');
- 	cards.removeClass('match open show'); //hide all images
-
+ 	cards.removeClass('match open show'); 
  	let newCardsBottoms = shuffle(cardsBottoms);
 
  	currentBottoms = cards.children('i');
  	currentBottoms.removeClass('fa-diamond fa-paper-plane-o fa-anchor fa-bolt fa-cube fa-leaf fa-bicycle fa-bomb');
  	currentBottoms.each( function(index, item) {
- 		$(item).addClass(newCardsBottoms[index]); //assign re-shuffled classes to the cards
+ 		$(item).addClass(newCardsBottoms[index]); 
  	});
- 	//reset global variables and counter
+ 	
  	openCards = []; 
  	matchedCards = [];
  	score = 3;
@@ -57,7 +51,7 @@ function resetTimer() {
  	clearInterval(timerVar);
  }
 
-// Shuffle function from http://stackoverflow.com/a/2450976
+
 function shuffle(array) {
     var currentIndex = array.length, temporaryValue, randomIndex;
 
@@ -119,7 +113,7 @@ function addToOpen(card) {
 function increaseCounter() {
 	counter += 1;
 	$('.moves').text(counter);
-	// decrease the score depending on the amount of moves that were already made
+	
 	if (counter===30) { 
 		$('#third-star').css('color','#fefefe');
 		score=2;
@@ -132,15 +126,15 @@ function increaseCounter() {
 }
 
 function checkMatch() {
-	if (openCards.length==2) { //if two cards are uncovered
-		if (openCards[0]==openCards[1]) { //if they depict the same image
+	if (openCards.length==2) { 
+		if (openCards[0]==openCards[1]) { 
 			keepOpenOnMatch($('.card:has(.'+openCards[0]+')'));
 			matchedCards.push(openCards[0]);
-			if (matchedCards.length===8) { //the game is won
+			if (matchedCards.length===8) { 
 			 	clearInterval(timerVar);
 			 	showWinnigMessage();	
 			  }
-		} else { //hide the uncovered cards
+		} else { 
 			hideSymbol($('.card:has(.'+openCards[0]+')'));
 			hideSymbol($('.card:has(.'+openCards[1]+')'));
 		}
@@ -154,12 +148,12 @@ $('.card').click( function(event) {
 		isFirstClick = false;
 	}
 	let card = $(event.target); 
-	if (!card.hasClass('match') && !card.hasClass('show')) { //only if the class is not open already
-		if (openCards.length<=1) { //react only if there is one or no cards open
+	if (!card.hasClass('match') && !card.hasClass('show')) { 
+		if (openCards.length<=1) { 
 			showSymbol(card);
 			addToOpen(card);
 			increaseCounter();
-			setTimeout(checkMatch,800);//give some time to the user to see both cards
+			setTimeout(checkMatch,800);
 		}
 	}
 });
@@ -168,20 +162,19 @@ $('.restart').click(newGame);
 
 $(document).ready(newGame);
 
-// When the user clicks on <span> (x), close the modal
+
 $('.close').click(function() {
     $('.modal').css('display', 'none');
 });
 
-// When the user clicks anywhere outside of the modal, close it
+
 window.onclick = function(event) {
     $('.modal').css('display', 'none');
 };
 
-// When play again button is clicked, play a new game
 $('.play').click(newGame);
 
-// When player doesn't want to play anymore
+
 $('.no-play').click(function() {
     $('.modal').css('display', 'none');
     clearInterval(timerVar);
