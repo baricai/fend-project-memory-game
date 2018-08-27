@@ -1,18 +1,75 @@
-// Declare card symbols
-let cards = ["fa-diamond", "fa-diamond", "fa-paper-plane-o", "fa-paper-plane-o", "fa-anchor", "fa-anchor", "fa-bolt", "fa-bolt", "fa-cube", "fa-cube", "fa-leaf", "fa-leaf", "fa-bicycle", "fa-bicycle", "fa-bomb", "fa-bomb"];
+var min = 0;
+var sec = 0;
+var hours = 0;
+var letsStop = 0;
+window.onload = function() {
+    setInterval(function() {
+        if (letsStop !== 1) {
+            sec++;
+            if (sec === 60) {
+                min++;
+                sec = 0;
+            }
+            if (min === 60) {
+                hours++;
+                min = 0;
+                sec = 0;
+            }
+            $('.timer').html(hours + ':' + min + ':' + sec);
+            // if(letsStop === 1)
+            // {
+            //     break;
+            // } 
+            console.log(min);
+            console.log(sec);
+        }
 
-// Create array to hold opened cards
-let openCard = [];
-let moves = 0;
-let starts = 3;
-let matchFound = 0;
-let startGame = false;
-let starRating = "3";
-let timer;
+    }, 1000);
+};
 
-// Shuffle cards (function from http://stackoverflow.com/a/2450976)
+/*
+ * Create a list that holds all of your cards
+ */
+var cards = [];
+var cardsName = ['fa fa-diamond', 'fa fa-paper-plane-o', 'fa fa-anchor', 'fa fa-bolt', 'fa fa-cube', 'fa fa-anchor', 'fa fa-leaf', 'fa fa-bicycle', 'fa fa-diamond', 'fa fa-bomb', 'fa fa-leaf', 'fa fa-bomb', 'fa fa-bolt', 'fa fa-bicycle', 'fa fa-paper-plane-o', 'fa fa-cube'];
+var openCards = [];
+/*
+ * Display the cards on the page
+ *   - shuffle the list of cards using the provided "shuffle" method below
+ *   - loop through each card and create its HTML
+ *   - add each card's HTML to the page
+ */
+$('.deck').each(function() {
+    $(this).find('li').each(function() {
+        cards.push($(this));
+    });
+});
+var temp = 0;
+
+cardsName = shuffle(cardsName);
+
+var cardNumber = 0;
+$('.deck').each(function() {
+    $(this).find('li').find('i').each(function() {
+        $(this).removeAttr('class');
+        $(this).addClass(cardsName[cardNumber]);
+        cardNumber++;
+    });
+});
+
+//console.log($($(cards[0][0]).find('i')[0]).attr('class'));
+$('.deck').each(function() {
+    $(this).find('li').find('i').each(function() {
+        var tempClass = $($(cards[temp][0]).find('i')[0]).attr('class');
+        $(this).removeAttr('class');
+        $(this).addClass(tempClass);
+        temp++;
+    });
+});
+// Shuffle function from http://stackoverflow.com/a/2450976
 function shuffle(array) {
-    var currentIndex = array.length, temporaryValue, randomIndex;
+    var currentIndex = array.length,
+        temporaryValue, randomIndex;
 
     while (currentIndex !== 0) {
         randomIndex = Math.floor(Math.random() * currentIndex);
@@ -21,147 +78,113 @@ function shuffle(array) {
         array[currentIndex] = array[randomIndex];
         array[randomIndex] = temporaryValue;
     }
+
     return array;
 }
 
-// Create each card's HTMl
-function createCard() {
-  let cardList = shuffle(cards);
-  cardList.forEach(function(card) {
-    $(".deck").append('<li><i class="card fa ' + card + '"></i></li>');
-  })
+/*
+ * set up the event listener for a card. If a card is clicked:
+ *  - display the card's symbol (put this functionality in another function that you call from this one)
+ *  - add the card to a *list* of "open" cards (put this functionality in another function that you call from this one)
+ *  - if the list already has another card, check to see if the two cards match
+ *    + if the cards do match, lock the cards in the open position (put this functionality in another function that you call from this one)
+ *    + if the cards do not match, remove the cards from the list and hide the card's symbol (put this functionality in another function that you call from this one)
+ *    + increment the move counter and display it on the page (put this functionality in another function that you call from this one)
+ *    + if all cards have matched, display a message with the final score (put this functionality in another function that you call from this one)
+ */
+var moves = 0,
+    stars = 3;
+
+removeProperties = function(prop) {
+    setTimeout(function() {
+        prop.removeClass('show open animated wobble');
+        openCards[0].removeClass('show open animated wobble');
+        openCards = [];
+    }, 400);
+};
+
+showCardOnClick = function(clickEvent) {
+    clickEvent.on('click', function() {
+        moves++;
+        if (moves === 16) {
+
+        } else if (moves > 16 && moves <= 25) {
+            $('section ul li').hide();
+            $('section ul').append('<li><i class="fa fa-star"></i></li>');
+            $('section ul').append('<li><i class="fa fa-star"></i></li>');
+            stars = 2;
+        } else if (moves > 25) {
+            $('section ul li').hide();
+            $('section ul').append('<li><i class="fa fa-star"></i></li>');
+            stars = 1;
+        }
+        $('.moves').html(moves);
+        if ((openCards.length % 2) === 0) {
+            $(this).addClass('show open animated wobble');
+            $(this).off('click');
+            openCards.push($(this));
+        } else if (openCards.length !== 0) {
+            $(this).addClass('show open animated wobble');
+
+            var self = $(this);
+            for (var i = 0; i < openCards.length; i++) {
+                if (openCards[i].find('i').attr('class') === self.find('i').attr('class')) {
+                    // openCards.push(self);
+                    self.removeClass('animated wobble');
+                    self.addClass('show match animated rubberBand');
+                    openCards[i].removeClass('animated wobble');
+                    openCards[i].addClass('show match animated rubberBand');
+                    console.log('match');
+                    $(this).off('click');
+                    //openCards.push(self);
+                    openCards = [];
+                    break;
+                } else {
+                    self.addClass('show open animated wobble');
+                    removeProperties(self);
+                    openCards[0].on('click', showCardOnClick(openCards[0]));
+                    console.log('no match');
+                }
+            }
+        }
+        if ($('.deck').find('.match').length === 16) {
+            setTimeout(function() {
+                $('.deck').each(function() {
+                    // $(this).find('li').hide();
+                    swal({
+                        title: 'Congratulations',
+                        type: 'success',
+                        text: 'You have won the game . Moves conceded are ' + moves + '. You have got ' + stars + ' Stars Time taken is ' + hours + ' Hours ' + min + ' Minutes and ' + sec + ' Seconds',
+                        allowOutsideClick: false,
+                        showCancelButton: true,
+                        confirmButtonText: 'Play Again',
+                        confirmButtonColor: '#0000FF',
+                        cancelButtonText: 'Close',
+                        cancelButtonColor: '#FF0000'
+                    }).then(function() {
+                        location.reload();
+                    }, function(dismiss) {
+                        console.log('Yes');
+                    });
+
+                });
+            }, 300);
+            letsStop = 1;
+            $('.timer').hide();
+            $('.timer').html('0:0:0');
+            $('.timer').show();
+        }
+
+
+    });
+};
+
+for (var i = 0; i < cards.length; i++) {
+    cards[i].on('click', showCardOnClick(cards[i]));
 }
 
-// Logic to find matching cards
-function findMatch() {
-  // Show cards on click
-  $(".card").on("click", function() {
-    if ($(this).hasClass("open show")) { return; }
-    $(this).toggleClass("flipInY open show");
-    openCard.push($(this));
-    startGame = true;
-   // Check if classlist matches when openCard length == 2
-    if (openCard.length === 2) {
-      if (openCard[0][0].classList[2] === openCard[1][0].classList[2]) {
-      openCard[0][0].classList.add("bounceIn", "match");
-      openCard[1][0].classList.add("bounceIn", "match");
-      $(openCard[0]).off('click');
-      $(openCard[1]).off('click');
-      matchFound += 1;
-      moves++;
-      removeOpenCards();
-      findWinner();
-      } else {
-      // If classes don't match, add "wrong" class
-      openCard[0][0].classList.add("shake", "wrong");
-      openCard[1][0].classList.add("shake", "wrong");
-      // Set timeout to remove "show" and "open" class
-      setTimeout(removeClasses, 1100);
-      // Reset openCard.length to 0
-      setTimeout(removeOpenCards, 1100);
-      moves++;
-      }
-    }
-  updateMoves();
-  })
-}
-
-// Update HTML with number of moves
-function updateMoves() {
-  if (moves === 1) {
-    $("#movesText").text(" Move");
-  } else {
-    $("#movesText").text(" Moves");
-  }
-  $("#moves").text(moves.toString());
-
-  if (moves > 0 && moves < 16) {
-    starRating = starRating;
-  } else if (moves >= 16 && moves <= 20) {
-    $("#starOne").removeClass("fa-star");
-    starRating = "2";
-  } else if (moves > 20) {
-    $("#starTwo").removeClass("fa-star");
-    starRating = "1";
-  }
-}
-
-
-// Open popup when game is complete source: www.w3schools.com
-function findWinner() {
-
-  if (matchFound === 8) {
-
-    var modal = document.getElementById('win-popup');
-    var span = document.getElementsByClassName("close")[0];
-
-    $("#total-moves").text(moves);
-    $("#total-stars").text(starRating);
-
-    modal.style.display = "block";
-
-  // When the user clicks on <span> (x), close the modal
-    span.onclick = function() {
-        modal.style.display = "none";
-    }
-
-   $("#play-again-btn").on("click", function() {
-       location.reload()
-   });
-
-   clearInterval(timer);
-
-
- }
-}
-
-// Reset openCard.length to 0
-function removeOpenCards() {
-  openCard = [];
-}
-
-// Remove all classes except "match"
-function removeClasses() {
-  $(".card").removeClass("show open flipInY bounceIn shake wrong");
-  removeOpenCards();
-}
-
-// Disable clicks
-function disableClick() {
- openCard.forEach(function (card) {
-   card.off("click");
-  })
-}
-
-// Start timer on the first card click
-function startTimer() {
-  let clicks = 0;
-  $(".card").on("click", function() {
-    clicks += 1;
-    if (clicks === 1) {
-      var sec = 0;
-      function time ( val ) { return val > 9 ? val : "0" + val; }
-      timer = setInterval( function(){
-        $(".seconds").html(time(++sec % 60));
-        $(".minutes").html(time(parseInt(sec / 60, 10)));
-      }, 1000);
-    }
-  })
- }
-
-// Call functions
-shuffle(cards);
-createCard();
-findMatch();
-startTimer();
-
-// Function to restart the game on icon click
-function restartGame() {
-  $("#restart").on("click", function() {
-      location.reload()
-  });
-  }
-
-restartGame();
+$('.restart').on('click', function() {
+    location.reload();
+});
 
 
