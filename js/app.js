@@ -23,21 +23,14 @@ window.onload = function() {
                 sec = 0;
             }
             $('.timer').html(hours + ':' + min + ':' + sec);
-            // if(letsStop === 1)
-            // {
-            //     break;
-            // } 
+            
             console.log(min);
             console.log(sec);
         }
 
     }, 1000);
-};/*
- * Display the cards on the page
- *   - shuffle the list of cards using the provided "shuffle" method below
- *   - loop through each card and create its HTML
- *   - add each card's HTML to the page
- */
+};
+
 $('.deck').each(function() {
     $(this).find('li').each(function() {
         cards.push($(this));
@@ -56,7 +49,7 @@ $('.deck').each(function() {
     });
 });
 
-//console.log($($(cards[0][0]).find('i')[0]).attr('class'));
+
 $('.deck').each(function() {
     $(this).find('li').find('i').each(function() {
         var tempClass = $($(cards[temp][0]).find('i')[0]).attr('class');
@@ -65,7 +58,7 @@ $('.deck').each(function() {
         temp++;
     });
 });
-// Shuffle function from http://stackoverflow.com/a/2450976
+
 function shuffle(array) {
     var currentIndex = array.length,
         temporaryValue, randomIndex;
@@ -149,7 +142,7 @@ showCardOnClick = function(clickEvent) {
         if ($('.deck').find('.match').length === 16) {
             setTimeout(function() {
                 $('.deck').each(function() {
-                    // $(this).find('li').hide();
+                    
                     swal({
                         title: 'Congratulations',
                         type: 'success',
