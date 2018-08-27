@@ -1,57 +1,16 @@
-/*
- * List of all cards
- */
+// Declare card symbols
+let cards = ["fa-diamond", "fa-diamond", "fa-paper-plane-o", "fa-paper-plane-o", "fa-anchor", "fa-anchor", "fa-bolt", "fa-bolt", "fa-cube", "fa-cube", "fa-leaf", "fa-leaf", "fa-bicycle", "fa-bicycle", "fa-bomb", "fa-bomb"];
 
-let cardsBottoms = ['fa-diamond', 'fa-paper-plane-o', 'fa-anchor', 'fa-bolt', 'fa-cube', 'fa-anchor', 'fa-leaf', 'fa-bicycle', 'fa-diamond', 'fa-bomb', 'fa-leaf', 'fa-bomb', 'fa-bolt', 'fa-bicycle', 'fa-paper-plane-o', 'fa-cube'];
+// Create array to hold opened cards
+let openCard = [];
+let moves = 0;
+let starts = 3;
+let matchFound = 0;
+let startGame = false;
+let starRating = "3";
+let timer;
 
-let openCards = []; 
-let matchedCards = []; 
-let score = 3; 
-let counter = 0;
-let isFirstClick = true;
-let currentBottoms = [];
-
-
-
-var timerVar = setInterval(countTimer, 1000);
-var totalSeconds = 0;
-function countTimer() {
-   ++totalSeconds;
-   var hour = Math.floor(totalSeconds /3600);
-   var minute = Math.floor((totalSeconds - hour*3600)/60);
-   var seconds = totalSeconds - (hour*3600 + minute*60);
-
-   document.getElementById("timer").innerHTML = hour + ":" + minute + ":" + seconds;
-}
-
-function resetTimer() {
-	clearInterval(timerVar);
-	totalSeconds = 0;
-	timerVar = setInterval(countTimer, 1000);
-}
-
- function newGame() {
- 	let cards = $('.card');
- 	cards.removeClass('match open show'); 
- 	let newCardsBottoms = shuffle(cardsBottoms);
-
- 	currentBottoms = cards.children('i');
- 	currentBottoms.removeClass('fa-diamond fa-paper-plane-o fa-anchor fa-bolt fa-cube fa-leaf fa-bicycle fa-bomb');
- 	currentBottoms.each( function(index, item) {
- 		$(item).addClass(newCardsBottoms[index]); 
- 	});
- 	
- 	openCards = []; 
- 	matchedCards = [];
- 	score = 3;
- 	counter = 0;
- 	isFirstClick = true;
- 	$('.moves').text(0);
- 	$('.fa-star').css('color','#000');
- 	clearInterval(timerVar);
- }
-
-
+// Shuffle cards (function from http://stackoverflow.com/a/2450976)
 function shuffle(array) {
     var currentIndex = array.length, temporaryValue, randomIndex;
 
@@ -62,121 +21,147 @@ function shuffle(array) {
         array[currentIndex] = array[randomIndex];
         array[randomIndex] = temporaryValue;
     }
-
     return array;
 }
 
-
-/*
- * set up the event listener for a card. If a card is clicked:
- *  - display the card's symbol (put this functionality in another function that you call from this one)
- *  - add the card to a *list* of "open" cards (put this functionality in another function that you call from this one)
- *  - if the list already has another card, check to see if the two cards match
- *    + if the cards do match, lock the cards in the open position (put this functionality in another function that you call from this one)
- *    + if the cards do not match, remove the cards from the list and hide the card's symbol (put this functionality in another function that you call from this one)
- *    + increment the move counter and display it on the page (put this functionality in another function that you call from this one)
- *    + if all cards have matched, display a message with the final score (put this functionality in another function that you call from this one)
- */
-function showSymbol(card) {
-	card.addClass('open show');
+// Create each card's HTMl
+function createCard() {
+  let cardList = shuffle(cards);
+  cardList.forEach(function(card) {
+    $(".deck").append('<li><i class="card fa ' + card + '"></i></li>');
+  })
 }
 
-function hideSymbol(card) {
-	card.removeClass('open show');
+// Logic to find matching cards
+function findMatch() {
+  // Show cards on click
+  $(".card").on("click", function() {
+    if ($(this).hasClass("open show")) { return; }
+    $(this).toggleClass("flipInY open show");
+    openCard.push($(this));
+    startGame = true;
+   // Check if classlist matches when openCard length == 2
+    if (openCard.length === 2) {
+      if (openCard[0][0].classList[2] === openCard[1][0].classList[2]) {
+      openCard[0][0].classList.add("bounceIn", "match");
+      openCard[1][0].classList.add("bounceIn", "match");
+      $(openCard[0]).off('click');
+      $(openCard[1]).off('click');
+      matchFound += 1;
+      moves++;
+      removeOpenCards();
+      findWinner();
+      } else {
+      // If classes don't match, add "wrong" class
+      openCard[0][0].classList.add("shake", "wrong");
+      openCard[1][0].classList.add("shake", "wrong");
+      // Set timeout to remove "show" and "open" class
+      setTimeout(removeClasses, 1100);
+      // Reset openCard.length to 0
+      setTimeout(removeOpenCards, 1100);
+      moves++;
+      }
+    }
+  updateMoves();
+  })
 }
 
-function keepOpenOnMatch(card) {
-	card.addClass('match');
-	card.removeClass('open show');
+// Update HTML with number of moves
+function updateMoves() {
+  if (moves === 1) {
+    $("#movesText").text(" Move");
+  } else {
+    $("#movesText").text(" Moves");
+  }
+  $("#moves").text(moves.toString());
+
+  if (moves > 0 && moves < 16) {
+    starRating = starRating;
+  } else if (moves >= 16 && moves <= 20) {
+    $("#starOne").removeClass("fa-star");
+    starRating = "2";
+  } else if (moves > 20) {
+    $("#starTwo").removeClass("fa-star");
+    starRating = "1";
+  }
 }
 
-function showWinnigMessage() {
-	let modalWin = $('#winningModal');
-	let hours = Math.floor(totalSeconds /3600);
-    let minutes = Math.floor((totalSeconds - hours*3600)/60);
-    let seconds = totalSeconds - (hours*3600 + minutes*60);
-	$('#winningText').text('You\'ve won with score '+score+' and it took you '+hours+' hour(s) '+minutes+' minute(s) and '+seconds+' second(s). Awsome job!');
-	modalWin.css('display','block');
+
+// Open popup when game is complete source: www.w3schools.com
+function findWinner() {
+
+  if (matchFound === 8) {
+
+    var modal = document.getElementById('win-popup');
+    var span = document.getElementsByClassName("close")[0];
+
+    $("#total-moves").text(moves);
+    $("#total-stars").text(starRating);
+
+    modal.style.display = "block";
+
+  // When the user clicks on <span> (x), close the modal
+    span.onclick = function() {
+        modal.style.display = "none";
+    }
+
+   $("#play-again-btn").on("click", function() {
+       location.reload()
+   });
+
+   clearInterval(timer);
+
+
+ }
 }
 
-function showLosingMessage() {
-	let modalLoose = $('#losingModal');
-	$('#losingText').text('You\'ve lost badly.');
-	modalLoose.css('display','block');
+// Reset openCard.length to 0
+function removeOpenCards() {
+  openCard = [];
 }
 
-function addToOpen(card) {
-	let cardPic=card.children('i').attr('class').split(' ')[1];
-	openCards.push(cardPic);
+// Remove all classes except "match"
+function removeClasses() {
+  $(".card").removeClass("show open flipInY bounceIn shake wrong");
+  removeOpenCards();
 }
 
-function increaseCounter() {
-	counter += 1;
-	$('.moves').text(counter);
-	
-	if (counter===30) { 
-		$('#third-star').css('color','#fefefe');
-		score=2;
-	} else if (counter===40) {
-		$('#second-star').css('color','#fefefe');
-		score=1;
-	} else if (counter>60) {
-		showLosingMessage();
-	}
+// Disable clicks
+function disableClick() {
+ openCard.forEach(function (card) {
+   card.off("click");
+  })
 }
 
-function checkMatch() {
-	if (openCards.length==2) { 
-		if (openCards[0]==openCards[1]) { 
-			keepOpenOnMatch($('.card:has(.'+openCards[0]+')'));
-			matchedCards.push(openCards[0]);
-			if (matchedCards.length===8) { 
-			 	clearInterval(timerVar);
-			 	showWinnigMessage();	
-			  }
-		} else { 
-			hideSymbol($('.card:has(.'+openCards[0]+')'));
-			hideSymbol($('.card:has(.'+openCards[1]+')'));
-		}
-		openCards=[];
-	} 
-}
+// Start timer on the first card click
+function startTimer() {
+  let clicks = 0;
+  $(".card").on("click", function() {
+    clicks += 1;
+    if (clicks === 1) {
+      var sec = 0;
+      function time ( val ) { return val > 9 ? val : "0" + val; }
+      timer = setInterval( function(){
+        $(".seconds").html(time(++sec % 60));
+        $(".minutes").html(time(parseInt(sec / 60, 10)));
+      }, 1000);
+    }
+  })
+ }
 
-$('.card').click( function(event) {
-	if (isFirstClick) {
-		resetTimer();
-		isFirstClick = false;
-	}
-	let card = $(event.target); 
-	if (!card.hasClass('match') && !card.hasClass('show')) { 
-		if (openCards.length<=1) { 
-			showSymbol(card);
-			addToOpen(card);
-			increaseCounter();
-			setTimeout(checkMatch,800);
-		}
-	}
-});
+// Call functions
+shuffle(cards);
+createCard();
+findMatch();
+startTimer();
 
-$('.restart').click(newGame);
+// Function to restart the game on icon click
+function restartGame() {
+  $("#restart").on("click", function() {
+      location.reload()
+  });
+  }
 
-$(document).ready(newGame);
+restartGame();
 
-
-$('.close').click(function() {
-    $('.modal').css('display', 'none');
-});
-
-
-window.onclick = function(event) {
-    $('.modal').css('display', 'none');
-};
-
-$('.play').click(newGame);
-
-
-$('.no-play').click(function() {
-    $('.modal').css('display', 'none');
-    clearInterval(timerVar);
-});
 
