@@ -1,65 +1,22 @@
 
-var cards = [];
-var cardsList= ['fa fa-star', 'fa fa-repeat, 'fa fa-paper-plane-o', 'fa fa-anchor', 'fa fa-bolt', 'fa fa-cube', 'fa fa-anchor', 'fa fa-leaf', 'fa fa-bicycle', 'fa fa-diamond', 'fa fa-bomb', 'fa fa-leaf', 'fa fa-bomb', 'fa fa-bolt', 'fa fa-bicycle', 'fa fa-paper-plane-o', 'fa fa-cube'];
-var openCards = [];
+/*
+ * Create a list that holds all of your cards
+ */
 
-var min = 0;
-var sec = 0;
-var hours = 0;
-var letsStop = 0;
-window.onload = function() {
-    setInterval(function() {
-        if (letsStop !== 1) {
-            sec++;
-            if (sec === 60) {
-                min++;
-                sec = 0;
-            }
-            if (min === 60) {
-                hours++;
-                min = 0;
-                sec = 0;
-            }
-            $('.timer').html(hours + ':' + min + ':' + sec);
-            
-            console.log(min);
-            console.log(sec);
-        }
+let card = document.getElementsByClassName("card");
 
-    }, 1000);
-};
+let cards = ['fa fa-star', 'fa fa-star', 'fa fa-diamond', 'fa fa-diamond', 'fa fa-paper-plane-o', 'fa fa-paper-plane-o', 'fa fa-anchor', 'fa fa-anchor', 'fa fa-bolt', 'fa fa-bolt', 'fa fa-cube', 'fa fa-cube', 'fa fa-leaf', 'fa fa-leaf', 'fa fa-bicycle', 'fa fa-bicycle', 'fa fa-bomb', 'fa fa-bomb'];
 
-$('.deck').each(function() {
-    $(this).find('li').each(function() {
-        cards.push($(this));
-    });
-});
-var temp = 0;
+/*
+ * Display the cards on the page
+ *   - shuffle the list of cards using the provided "shuffle" method below
+ *   - loop through each card and create its HTML
+ *   - add each card's HTML to the page
+ */
 
-cardsName = shuffle(cardsName);
-
-var cardNumber = 0;
-$('.deck').each(function() {
-    $(this).find('li').find('i').each(function() {
-        $(this).removeAttr('class');
-        $(this).addClass(cardsName[cardNumber]);
-        cardNumber++;
-    });
-});
-
-
-$('.deck').each(function() {
-    $(this).find('li').find('i').each(function() {
-        var tempClass = $($(cards[temp][0]).find('i')[0]).attr('class');
-        $(this).removeAttr('class');
-        $(this).addClass(tempClass);
-        temp++;
-    });
-});
-
+// Shuffle function from http://stackoverflow.com/a/2450976
 function shuffle(array) {
-    var currentIndex = array.length,
-        temporaryValue, randomIndex;
+    var currentIndex = array.length, temporaryValue, randomIndex;
 
     while (currentIndex !== 0) {
         randomIndex = Math.floor(Math.random() * currentIndex);
@@ -72,6 +29,7 @@ function shuffle(array) {
     return array;
 }
 
+
 /*
  * set up the event listener for a card. If a card is clicked:
  *  - display the card's symbol (put this functionality in another function that you call from this one)
@@ -82,99 +40,32 @@ function shuffle(array) {
  *    + increment the move counter and display it on the page (put this functionality in another function that you call from this one)
  *    + if all cards have matched, display a message with the final score (put this functionality in another function that you call from this one)
  */
-var moves = 0,
-    stars = 3;
 
-removeProperties = function(prop) {
-    setTimeout(function() {
-        prop.removeClass('show open animated wobble');
-        openCards[0].removeClass('show open animated wobble');
-        openCards = [];
-    }, 400);
+//setting up event listener
+for (var i = 0; i < cards.length; i++){
+   cards[i].addEventListener("click", displayCard);
 };
-
-showCardOnClick = function(clickEvent) {
-    clickEvent.on('click', function() {
-        moves++;
-        if (moves === 16) {
-
-        } else if (moves > 16 && moves <= 25) {
-            $('section ul li').hide();
-            $('section ul').append('<li><i class="fa fa-star"></i></li>');
-            $('section ul').append('<li><i class="fa fa-star"></i></li>');
-            stars = 2;
-        } else if (moves > 25) {
-            $('section ul li').hide();
-            $('section ul').append('<li><i class="fa fa-star"></i></li>');
-            stars = 1;
-        }
-        $('.moves').html(moves);
-        if ((openCards.length % 2) === 0) {
-            $(this).addClass('show open animated wobble');
-            $(this).off('click');
-            openCards.push($(this));
-        } else if (openCards.length !== 0) {
-            $(this).addClass('show open animated wobble');
-
-            var self = $(this);
-            for (var i = 0; i < openCards.length; i++) {
-                if (openCards[i].find('i').attr('class') === self.find('i').attr('class')) {
-                    // openCards.push(self);
-                    self.removeClass('animated wobble');
-                    self.addClass('show match animated rubberBand');
-                    openCards[i].removeClass('animated wobble');
-                    openCards[i].addClass('show match animated rubberBand');
-                    console.log('match');
-                    $(this).off('click');
-                    //openCards.push(self);
-                    openCards = [];
-                    break;
-                } else {
-                    self.addClass('show open animated wobble');
-                    removeProperties(self);
-                    openCards[0].on('click', showCardOnClick(openCards[0]));
-                    console.log('no match');
-                }
-            }
-        }
-        if ($('.deck').find('.match').length === 16) {
-            setTimeout(function() {
-                $('.deck').each(function() {
-                    
-                    swal({
-                        title: 'Congratulations',
-                        type: 'success',
-                        text: 'You have won the game . Moves conceded are ' + moves + '. You have got ' + stars + ' Stars Time taken is ' + hours + ' Hours ' + min + ' Minutes and ' + sec + ' Seconds',
-                        allowOutsideClick: false,
-                        showCancelButton: true,
-                        confirmButtonText: 'Play Again',
-                        confirmButtonColor: '#0000FF',
-                        cancelButtonText: 'Close',
-                        cancelButtonColor: '#FF0000'
-                    }).then(function() {
-                        location.reload();
-                    }, function(dismiss) {
-                        console.log('Yes');
-                    });
-
-                });
-            }, 300);
-            letsStop = 1;
-            $('.timer').hide();
-            $('.timer').html('0:0:0');
-            $('.timer').show();
-        }
-
-
-    });
-};
-
-for (var i = 0; i < cards.length; i++) {
-    cards[i].on('click', showCardOnClick(cards[i]));
+ //display the cards
+var displayCard = function (){
+  this.classList.toggle("show"); 
+  this.classList.toggle("open");
+  this.classList.toggle("disabled");
 }
 
-$('.restart').on('click', function() {
-    location.reload();
-});
+//list of open cards
+function cardOpen() {
+    openedCards.push(this);
+    var len = openedCards.length;
+    if(len === 2){
+        moveCounter();
+        if(openedCards[0].type === openedCards[1].type){
+            matched();
+        } else {
+            unmatched();
+        }
+    }
+};
 
+if openedCards==0 is equal than openedCsards==1 add matched
 
+if openedCards==0 different than openedCards==1 add unmatched
