@@ -13,6 +13,8 @@ let cards = ['fa fa-star', 'fa fa-star', 'fa fa-diamond', 'fa fa-diamond', 'fa f
  *   - add each card's HTML to the page
  */
 
+var openedCards = [];
+
 // Shuffle function from http://stackoverflow.com/a/2450976
 function shuffle(array) {
     var currentIndex = array.length, temporaryValue, randomIndex;
