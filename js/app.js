@@ -32,7 +32,7 @@ function shuffle(array) {
     }
 
     return array;
-};
+}
 
 
 /*
