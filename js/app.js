@@ -25,7 +25,7 @@ moves[0].innerHTML = 0;
 const restart = document.getElementsByClassName(`fa-repeat`);
 
 // Define the symbols and create a deck of cards holding two of each symbol
-const symbols = [`anchor`, `bicycle`, `bolt`, `bomb`, `cube`, `diamond`, `leaf`, `paper-plane-o`];
+let cards = ["fa fa-diamond", "fa fa-paper-plane-o","fa fa-anchor", "fa fa-bolt","fa fa-cube", "fa fa-anchor", "fa fa-leaf","fa fa-bicycle", "fa fa-diamond", "fa fa-bomb", "fa fa-leaf", "fa fa-bomb", "fa fa-bolt", "fa fa-bicycle", "fa fa-paper-plane-o", "fa fa-cube"];
 const cards = [...symbols, ...symbols];
 
 // Returns a shuffled list of items
