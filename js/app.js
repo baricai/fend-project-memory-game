@@ -21,8 +21,7 @@ let deck = document.getElementsByClassName(`deck`);
 let moves = document.getElementsByClassName(`moves`);
 moves[0].innerHTML = 0;
 
-// Grab the 'reset' icon from the HTML
-var restart = document.getElementsByClassName(`fa-repeat`);
+
 
 // Define the symbols and create a deck of cards holding two of each symbol
 let cards = ["fa fa-diamond", "fa fa-paper-plane-o","fa fa-anchor", "fa fa-bolt","fa fa-cube", "fa fa-anchor", "fa fa-leaf","fa fa-bicycle", "fa fa-diamond", "fa fa-bomb", "fa fa-leaf", "fa fa-bomb", "fa fa-bolt", "fa fa-bicycle", "fa fa-paper-plane-o", "fa fa-cube"];
@@ -43,6 +42,9 @@ function shuffle(array) {
 
     return array;
 }
+
+// Grab the 'reset' icon from the HTML
+var restart = document.getElementsByClassName(`fa-repeat`);
 
 // Call the buildCongrats function once
 buildCongrats();
