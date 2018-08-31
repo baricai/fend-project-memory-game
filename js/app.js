@@ -14,6 +14,10 @@ let cards = ['fa fa-star', 'fa fa-star', 'fa fa-diamond', 'fa fa-diamond', 'fa f
  */
 
 var openedCards = [];
+var moveCounter= 0;
+var timeCount= 0;
+var restart= 0;
+
 
 // Shuffle function from http://stackoverflow.com/a/2450976
 function shuffle(array) {
@@ -28,7 +32,7 @@ function shuffle(array) {
     }
 
     return array;
-}
+};
 
 
 /*
@@ -46,27 +50,7 @@ function shuffle(array) {
 for (var i = 0; i < cards.length; i++){
    cards[i].addEventListener("click", displayCard);
 };
- //display the cards
-var displayCard = function (){
-  this.classList.toggle("show"); 
-  this.classList.toggle("open");
-  this.classList.toggle("disabled");
-}
+ 
 
-//list of open cards
-function cardOpen() {
-    openedCards.push(this);
-    var len = openedCards.length;
-    if(len === 2){
-        moveCounter();
-        if(openedCards[0].type === openedCards[1].type){
-            matched();
-        } else {
-            unmatched();
-        }
-    }
-};
 
-if openedCards==0 is equal than openedCsards==1 add matched
 
-if openedCards==0 different than openedCards==1 add unmatched
