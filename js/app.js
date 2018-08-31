@@ -1,10 +1,5 @@
 
-let openedCards = [],
-    matchCounter = 0,
-    moveCounter = 0,
-    tryCounter = 0,
-    starRating = 3,
-    timeInt = 0;
+
 
 // Grab the score-panel, add a timer with default value of 00:00, and initialize the total seconds to 0
 const timer = document.createElement(`div`);
@@ -18,7 +13,7 @@ let totalSeconds = 0;
 let deck = document.getElementsByClassName(`deck`);
 
 // Grab the 'moves' from the HTML and change the text to 0
-let moves = document.getElementsByClassName(`moves`);
+var  moves = document.getElementsByClassName(`moves`);
 moves[0].innerHTML = 0;
 
 
