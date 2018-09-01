@@ -1,4 +1,9 @@
-
+let openedCards = [],
+    matchCounter = 0,
+    moveCounter = 0,
+    tryCounter = 0,
+    starRating = 3,
+    timeInt = 0;
 
 
 // Grab the score-panel, add a timer with default value of 00:00, and initialize the total seconds to 0
