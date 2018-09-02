@@ -7,12 +7,12 @@ var move = 0;
 
 
 // Grab the score-panel, add a timer with default value of 00:00, and initialize the total seconds to 0
-let timer = document.createElement(`div`);
+var timer = document.createElement(`div`);
 timer.className = `timer`;
 timer.innerHTML = `0:00`;
-const panel = document.getElementsByClassName(`score-panel`);
+var panel = document.getElementsByClassName(`score-panel`);
 panel[0].appendChild(timer);
-let totalSeconds = 0;
+var totalSeconds = 0;
 
 // Grab the deck div element from the HTML
 var deck = document.getElementsByClassName(`deck`);
