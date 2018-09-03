@@ -2,7 +2,12 @@
 
 
 // Grab the score-panel, add a timer with default value of 00:00, and initialize the total seconds to 0
-
+var timer = document.createElement(`div`);
+timer.className = `timer`;
+timer.innerHTML = `0:00`;
+var panel = document.getElementsByClassName(`score-panel`);
+panel[0].appendChild(timer);
+var totalSeconds = 0;
 
 
 
@@ -47,12 +52,7 @@ function shuffle(array) {
     return array;
 }
 
-var timer = document.createElement(`div`);
-timer.className = `timer`;
-timer.innerHTML = `0:00`;
-var panel = document.getElementsByClassName(`score-panel`);
-panel[0].appendChild(timer);
-var totalSeconds = 0;
+
 
 // Grab the deck div element from the HTML
 var deck = document.getElementsByClassName(`deck`);
