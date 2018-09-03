@@ -1,9 +1,4 @@
-var openedCards = [];
-var tryCounter = 0;
-var time = 0;
-var match = 0;
-var stars = 3;    
-var move = 0;
+
 
 
 // Grab the score-panel, add a timer with default value of 00:00, and initialize the total seconds to 0
@@ -26,6 +21,34 @@ moves[0].innerHTML = 0;
 // Define the symbols and create a deck of cards holding two of each symbol
 var cards = ["fa fa-diamond", "fa fa-paper-plane-o","fa fa-anchor", "fa fa-bolt","fa fa-cube", "fa fa-anchor", "fa fa-leaf","fa fa-bicycle", "fa fa-diamond", "fa fa-bomb", "fa fa-leaf", "fa fa-bomb", "fa fa-bolt", "fa fa-bicycle", "fa fa-paper-plane-o", "fa fa-cube"];
 var grid = [];
+
+var tryCounter = 0;
+var move = 0;
+var time = 0;
+var match = 0;
+var stars = 3;
+var openedCards = [];
+    
+function reset() {
+    tryCounter = 0;
+    resetTimer();
+    match = 0;
+    resetStars();
+    resetCounter();
+    clearDeck(deck);
+    var shuffledDeck = shuffle(cards);
+    openedCards = [];
+
+    
+    
+    
+    
+    
+    
+    createDeckHTML(shuffledDeck);
+    
+}
+
 
 // Returns a shuffled list of items
 // Shuffle function from http://stackoverflow.com/a/2450976
@@ -59,18 +82,6 @@ reset();
 // 2. Remove the old deck of cards
 // 3. Create a new shuffled deck of cards
 // 4. Hide the Congrats popup
-function reset() {
-    openedCards = [];
-    tryCounter = 0;
-    match = 0;
-    resetTimer();
-    resetCounter();
-    resetStars();
-    clearDeck(deck);
-    
-    createDeckHTML(shuffledDeck);
-    var shuffledDeck = shuffle(cards);
-}
 
 // Clear the old deck of cards by removing the HTML elements passed into it
 function clearDeck(deck) {
