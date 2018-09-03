@@ -1,12 +1,11 @@
 // Grab the score-panel, add a timer with default value of 00:00, and initialize the total seconds to 0
-var timer = document.createElement(`div`);
+
+const timer = document.createElement(`div`);
 timer.className = `timer`;
-timer.innerHTML = `0:00`;
-var panel = document.getElementsByClassName(`score-panel`);
+timer.innerHTML = `00:00`;
+const panel = document.getElementsByClassName(`score-panel`);
 panel[0].appendChild(timer);
-var totalSeconds = 0;
-
-
+let totalSeconds = 0;
 
 /*
  * Create a list that holds all of your cards
