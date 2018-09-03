@@ -1,6 +1,3 @@
-
-
-
 // Grab the score-panel, add a timer with default value of 00:00, and initialize the total seconds to 0
 var timer = document.createElement(`div`);
 timer.className = `timer`;
