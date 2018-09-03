@@ -28,7 +28,6 @@ function reset() {
     clearDeck(deck);
     var shuffledDeck = shuffle(cards);
     createDeckHTML(shuffledDeck);
-    
 }
 
 
