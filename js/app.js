@@ -1,14 +1,5 @@
-// Grab the score-panel, add a timer with default value of 00:00, and initialize the total seconds to 0
-
-const timer = document.createElement(`div`);
-timer.className = `timer`;
-timer.innerHTML = `00:00`;
-const panel = document.getElementsByClassName(`score-panel`);
-panel[0].appendChild(timer);
-let totalSeconds = 0;
-
-/*
- * Create a list that holds all of your cards
+*
+ * //Create a list that holds all of your cards
  */
 var cards = ["fa fa-diamond", "fa fa-paper-plane-o","fa fa-anchor", "fa fa-bolt","fa fa-cube", "fa fa-anchor", "fa fa-leaf","fa fa-bicycle", "fa fa-diamond", "fa fa-bomb", "fa fa-leaf", "fa fa-bomb", "fa fa-bolt", "fa fa-bicycle", "fa fa-paper-plane-o", "fa fa-cube"];
 var grid = [];
@@ -20,23 +11,6 @@ var time = 0;
 var match = 0;
 var stars = 3;
 
-restart[0].addEventListener(`click`, reset);
-
-// Call the reset function when page first loads
-reset();
-    
-function reset() {
-    openedCards = [];
-    tryCounter = 0;
-    resetTimer();
-    match = 0;
-    resetStars();
-    resetCounter();
-    clearDeck(deck);
-    var shuffledDeck = shuffle(cards);
-    createDeckHTML(shuffledDeck);
-}
-
 
 /*
  * Display the cards on the page
@@ -45,7 +19,30 @@ function reset() {
  *   - add each card's HTML to the page
  */
 
-// This is a function pre-set already given--Shuffle function from http://stackoverflow.com/a/2450976
+
+
+// Grab the score-panel, add a timer with default value of 00:00, and initialize the total seconds to 0
+var timer = document.createElement(`div`);
+timer.className = `timer`;
+timer.innerHTML = `00:00`;
+const panel = document.getElementsByClassName(`score-panel`);
+panel[0].appendChild(timer);
+let totalSeconds = 0;
+
+// Grab the deck div element from the HTML
+var deck = document.getElementsByClassName(`deck`);
+
+// Grab the 'moves' from the HTML and change the text to 0
+var moves = document.getElementsByClassName(`moves`);
+moves[0].innerHTML = 0;
+
+// Grab the 'reset' icon from the HTML
+const restart = document.getElementsByClassName(`fa-repeat`);
+
+
+
+// Returns a shuffled list of items
+// Shuffle function from http://stackoverflow.com/a/2450976
 function shuffle(array) {
     var currentIndex = array.length, temporaryValue, randomIndex;
 
@@ -60,33 +57,35 @@ function shuffle(array) {
     return array;
 }
 
-function clearDeck(deck) {
-    deck[0].remove();
-}
-
-// Grab the deck div element from the HTML
-var deck = document.getElementsByClassName(`deck`);
-
-// Grab the 'moves' from the HTML and change the text to 0
-var  moves = document.getElementsByClassName(`moves`);
-moves[0].innerHTML = 0;
-
-
-// Grab the 'reset' icon from the HTML
-var restart = document.getElementsByClassName(`fa-repeat`);
-
 // Call the buildCongrats function once
 buildCongrats();
 
+// Add eventlistener to listen for click on reset button
+restart[0].addEventListener(`click`, reset);
 
+// Call the reset function when page first loads
+reset();
 
 // 1. Resets the game to default values
 // 2. Remove the old deck of cards
 // 3. Create a new shuffled deck of cards
 // 4. Hide the Congrats popup
+function reset() {
+    openedCards = [];
+    tryCounter = 0;
+    resetTimer();
+    match = 0;
+    resetStars();
+    resetCounter();
+    clearDeck(deck);
+    var shuffledDeck = shuffle(cards);
+    createDeckHTML(shuffledDeck);
+}
 
 // Clear the old deck of cards by removing the HTML elements passed into it
-
+function clearDeck(deck) {
+    deck[0].remove();
+}
 
 // Create a HTML list elements based on the deck that's passed into it.
 // It adds the proper classname to each card, add an eventlistener to each card
@@ -96,7 +95,7 @@ function createDeckHTML(deck) {
     ul.className = `deck`;
     var container = document.getElementsByClassName(`container`);
     container[0].appendChild(ul);
-    for (var i=0; i<deck.length; i++){
+    for (var i=0; i<deck.length; i=i+1){
         var li = document.createElement(`li`);
         li.className = `card`;
         var inner = document.createElement(`i`);
@@ -120,7 +119,7 @@ function processClick() {
     // Test 3: User can not click already matched cards
     if ((openedCards.length < 2) && (!isSameCard(this)) && (!isAlreadyMatched(this)) ) {
         // Count the number of clicks that do not result a match
-        tryCounter = tryCounter + 1;
+        tryCounter=tryCounter+1;
 
         displayCard(this);
         addOpenedList(this);
@@ -128,7 +127,7 @@ function processClick() {
 
         // Start the timer if it is the first click
         if (move === 1) {
-            time = setInterval(startTimer, 1000);
+            timeInt = setInterval(startTimer, 1000);
         }
         // if two cards are open
         if(openedCards.length === 2){
@@ -139,7 +138,7 @@ function processClick() {
                 lockMatch();
                 removeOpenedList();
                 // if all 16 cards are matched, stop the timer and display congrats
-                else if (match === 16){
+                if (match === 16){
                     stopTimer();
                     // Allow time for the matching animation to finish before display popup
                     setTimeout(function() {
@@ -157,7 +156,7 @@ function processClick() {
 
                 // Lower the stars if user has viewed 8 cards, and the 4 recent clicks are failed matches
                 // Do not lower the star rating if the rating is 1
-                if ((move >= 8) && (tryCounter >= 4) && (stars > 1)){
+                if ((move >= 8) && (tryCounter >= 4) && (starRating > 1)){
                     lowerStars();
                 }
             }
@@ -171,21 +170,21 @@ function startTimer(){
     function addZero(i) {
         return (i < 10) ? `0` + i : i;
     }
-    let min = addZero(Math.floor(totalSeconds/60));
-    let sec = addZero(totalSeconds - (min*60));
+    var min = addZero(Math.floor(totalSeconds/60));
+    var sec = addZero(totalSeconds - (min*60));
     timer.innerHTML = `${min}:${sec}`;
 }
 
 // Reset the timer to default of 0 and the text on the webpage to 00:00
 function resetTimer(){
-    clearInterval(time);
+    clearInterval(timeInt);
     totalSeconds = 0;
-    timer.innerHTML = `0:00`;
+    timer.innerHTML = `00:00`;
 }
 
 // Stop the timer
 function stopTimer(){
-    clearInterval(time);
+    clearInterval(timeInt);
 }
 
 // Show the card by adding 'open' and 'show' class name
@@ -226,7 +225,7 @@ function addOpenedList(item) {
 
 // Increase the click(move) count by 1 and update the HTML text to the current value
 function incrementCounter() {
-    move++;
+    move=move+1;
     moves[0].innerHTML = move;
 }
 
@@ -238,10 +237,10 @@ function resetCounter() {
 // Keep the matched cards opened by setting the class name to 'card match'
 // Increase the match count by 2
 function lockMatch() {
-    var faCard = `fa-${openedCards[0]}`;
-    let collection = document.getElementsByClassName(`${faCard}`);
+    var faSymbol = `fa-${openedCards[0]}`;
+    var collection = document.getElementsByClassName(`${faSymbol}`);
 
-    for(var i=0; i<collection.length; i=i+1){
+    for(let i=0; i<collection.length; i++){
         collection[i].parentElement.className = `card match`;
     }
     match += 2;
@@ -256,8 +255,8 @@ function removeOpenedList() {
 // Create a div element to add to the page that will hold the congrats message later
 // Hide the div element initially
 function buildCongrats() {
-    const page = document.getElementsByClassName(`container`);
-    const popup = document.createElement(`div`);
+    var page = document.getElementsByClassName(`container`);
+    var popup = document.createElement(`div`);
     popup.className = `congratsPopup dimmed`;
     popup.innerHTML = ``;
     page[0].appendChild(popup);
@@ -265,23 +264,23 @@ function buildCongrats() {
 
 // Display the congrats message with the move count, total time, star rating and play again 'button'
 function displayCongrats() {
-    const popup = document.getElementsByClassName(`congratsPopup`);
+    var popup = document.getElementsByClassName(`congratsPopup`);
     popup[0].className = `congratsPopup`;
     popup[0].innerHTML =
         `<h2 class="congratsHeading" > Congratulations! </h2>
         <h3 class="congratsTagline" > You've won the game! </h3>
-        <p class="congratsMove" > ${moveCounter} moves </p>
+        <p class="congratsMove" > ${move} moves </p>
         <p class="congratsTime" > ${timer.innerHTML} total time </p>
         <p class="congratsStar" > ${starRating} stars </p>
         <p class="congratsPlay" > Play Again </p>`;
-    const play = document.getElementsByClassName(`congratsPlay`);
+    var play = document.getElementsByClassName(`congratsPlay`);
     play[0].addEventListener(`click`,reset);
 }
 
 // Hide the congrats popup by adding the class 'dimmed'
 // Erase the congrats text messages
 function hideCongrats() {
-    const popup = document.getElementsByClassName(`congratsPopup`);
+    var popup = document.getElementsByClassName(`congratsPopup`);
     popup[0].className = `congratsPopup dimmed`;
     popup[0].innerHTML = ``;
 }
