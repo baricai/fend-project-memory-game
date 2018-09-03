@@ -10,14 +10,16 @@
 var cards = ["fa fa-diamond", "fa fa-paper-plane-o","fa fa-anchor", "fa fa-bolt","fa fa-cube", "fa fa-anchor", "fa fa-leaf","fa fa-bicycle", "fa fa-diamond", "fa fa-bomb", "fa fa-leaf", "fa fa-bomb", "fa fa-bolt", "fa fa-bicycle", "fa fa-paper-plane-o", "fa fa-cube"];
 var grid = [];
 
+var openedCards = [];
 var tryCounter = 0;
 var move = 0;
 var time = 0;
 var match = 0;
 var stars = 3;
-var openedCards = [];
+
     
 function reset() {
+    openedCards = [];
     tryCounter = 0;
     resetTimer();
     match = 0;
@@ -26,7 +28,7 @@ function reset() {
     clearDeck(deck);
     var shuffledDeck = shuffle(cards);
     createDeckHTML(shuffledDeck);
-    openedCards = [];
+    
 }
 
 
