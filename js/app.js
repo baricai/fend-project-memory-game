@@ -22,6 +22,10 @@ var time = 0;
 var match = 0;
 var stars = 3;
 
+restart[0].addEventListener(`click`, reset);
+
+// Call the reset function when page first loads
+reset();
     
 function reset() {
     openedCards = [];
@@ -70,11 +74,7 @@ var restart = document.getElementsByClassName(`fa-repeat`);
 // Call the buildCongrats function once
 buildCongrats();
 
-// Add eventlistener to listen for click on reset button
-restart[0].addEventListener(`click`, reset);
 
-// Call the reset function when page first loads
-reset();
 
 // 1. Resets the game to default values
 // 2. Remove the old deck of cards
