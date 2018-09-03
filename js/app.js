@@ -52,7 +52,9 @@ function shuffle(array) {
     return array;
 }
 
-
+function clearDeck(deck) {
+    deck[0].remove();
+}
 
 // Grab the deck div element from the HTML
 var deck = document.getElementsByClassName(`deck`);
@@ -80,9 +82,7 @@ reset();
 // 4. Hide the Congrats popup
 
 // Clear the old deck of cards by removing the HTML elements passed into it
-function clearDeck(deck) {
-    deck[0].remove();
-}
+
 
 // Create a HTML list elements based on the deck that's passed into it.
 // It adds the proper classname to each card, add an eventlistener to each card
