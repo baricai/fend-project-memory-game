@@ -25,9 +25,9 @@ var stars = 3;
 var timer = document.createElement(`div`);
 timer.className = `timer`;
 timer.innerHTML = `00:00`;
-const panel = document.getElementsByClassName(`score-panel`);
+var panel = document.getElementsByClassName(`score-panel`);
 panel[0].appendChild(timer);
-let totalSeconds = 0;
+var totalSeconds = 0;
 
 // Grab the deck div element from the HTML
 var deck = document.getElementsByClassName(`deck`);
