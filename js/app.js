@@ -1,25 +1,10 @@
 
- * //Create a list that holds all of your cards
- */
-var cards = ["fa fa-diamond", "fa fa-paper-plane-o","fa fa-anchor", "fa fa-bolt","fa fa-cube", "fa fa-anchor", "fa fa-leaf","fa fa-bicycle", "fa fa-diamond", "fa fa-bomb", "fa fa-leaf", "fa fa-bomb", "fa fa-bolt", "fa fa-bicycle", "fa fa-paper-plane-o", "fa fa-cube"];
-var grid = [];
-
-var openedCards = [];
-var tryCounter = 0;
-var move = 0;
-var time = 0;
-var match = 0;
-var stars = 3;
-
-
-/*
- * Display the cards on the page
- *   - shuffle the list of cards using the provided "shuffle" method below
- *   - loop through each card and create its HTML
- *   - add each card's HTML to the page
- */
-
-
+ var openedCards = [];
+ var matchCounter = 0;
+ var moveCounter = 0;
+ var tryCounter = 0;
+ var starRating = 3;
+ var timeInt = 0;
 
 // Grab the score-panel, add a timer with default value of 00:00, and initialize the total seconds to 0
 var timer = document.createElement(`div`);
@@ -37,9 +22,11 @@ var moves = document.getElementsByClassName(`moves`);
 moves[0].innerHTML = 0;
 
 // Grab the 'reset' icon from the HTML
-const restart = document.getElementsByClassName(`fa-repeat`);
+var restart = document.getElementsByClassName(`fa-repeat`);
 
-
+// Define the symbols and create a deck of cards holding two of each symbol
+var symbols = [`anchor`, `bicycle`, `bolt`, `bomb`, `cube`, `diamond`, `leaf`, `paper-plane-o`];
+var cards = [...symbols, ...symbols];
 
 // Returns a shuffled list of items
 // Shuffle function from http://stackoverflow.com/a/2450976
@@ -72,14 +59,15 @@ reset();
 // 4. Hide the Congrats popup
 function reset() {
     openedCards = [];
+    matchCounter = 0;
     tryCounter = 0;
     resetTimer();
-    match = 0;
-    resetStars();
     resetCounter();
+    resetStars();
     clearDeck(deck);
     var shuffledDeck = shuffle(cards);
     createDeckHTML(shuffledDeck);
+    hideCongrats();
 }
 
 // Clear the old deck of cards by removing the HTML elements passed into it
@@ -91,9 +79,9 @@ function clearDeck(deck) {
 // It adds the proper classname to each card, add an eventlistener to each card
 // It then appends the list to the webpage
 function createDeckHTML(deck) {
-    var ul = document.createElement(`ul`);
+    const ul = document.createElement(`ul`);
     ul.className = `deck`;
-    var container = document.getElementsByClassName(`container`);
+    const container = document.getElementsByClassName(`container`);
     container[0].appendChild(ul);
     for (var i=0; i<deck.length; i=i+1){
         var li = document.createElement(`li`);
@@ -126,11 +114,11 @@ function processClick() {
         incrementCounter();
 
         // Start the timer if it is the first click
-        if (move === 1) {
+        if (moveCounter === 1) {
             timeInt = setInterval(startTimer, 1000);
         }
         // if two cards are open
-        if(openedCards.length === 2){
+        else if(openedCards.length === 2){
             // if the two opened cards match
             else if(openedCards[0] === openedCards[1]){
                 // Reset the failed match count back to 0
@@ -138,7 +126,7 @@ function processClick() {
                 lockMatch();
                 removeOpenedList();
                 // if all 16 cards are matched, stop the timer and display congrats
-                if (match === 16){
+                else if (matchCounter === 16){
                     stopTimer();
                     // Allow time for the matching animation to finish before display popup
                     setTimeout(function() {
@@ -156,7 +144,7 @@ function processClick() {
 
                 // Lower the stars if user has viewed 8 cards, and the 4 recent clicks are failed matches
                 // Do not lower the star rating if the rating is 1
-                if ((move >= 8) && (tryCounter >= 4) && (starRating > 1)){
+                if ((moveCounter >= 8) && (tryCounter >= 4) && (starRating > 1)){
                     lowerStars();
                 }
             }
@@ -202,13 +190,13 @@ function hideCards() {
 
 // Return true if the item is already opened and false if not
 function isSameCard(item) {
-    var isSame = (item.className === `card open show`) ? true : false;
+    const isSame = (item.className === `card open show`) ? true : false;
     return isSame;
 }
 
 // Return true if the item is already matched and false if not
 function isAlreadyMatched(item) {
-    var isAM = (item.className === `card match`) ? true : false;
+    const isAM = (item.className === `card match`) ? true : false;
     return isAM;
 }
 
@@ -225,13 +213,13 @@ function addOpenedList(item) {
 
 // Increase the click(move) count by 1 and update the HTML text to the current value
 function incrementCounter() {
-    move=move+1;
-    moves[0].innerHTML = move;
+    moveCounter++;
+    moves[0].innerHTML = moveCounter;
 }
 
 // Reset the click(move) to 0 and update the HTML text to the current value
 function resetCounter() {
-    moves[0].innerHTML = move = 0;
+    moves[0].innerHTML = moveCounter = 0;
 }
 
 // Keep the matched cards opened by setting the class name to 'card match'
@@ -240,10 +228,10 @@ function lockMatch() {
     var faSymbol = `fa-${openedCards[0]}`;
     var collection = document.getElementsByClassName(`${faSymbol}`);
 
-    for(let i=0; i<collection.length; i++){
+    for(var i=0; i<collection.length; i=i+1){
         collection[i].parentElement.className = `card match`;
     }
-    match += 2;
+    matchCounter += 2;
 }
 
 // Remove the two items in the list of opened card symbols
@@ -255,8 +243,8 @@ function removeOpenedList() {
 // Create a div element to add to the page that will hold the congrats message later
 // Hide the div element initially
 function buildCongrats() {
-    var page = document.getElementsByClassName(`container`);
-    var popup = document.createElement(`div`);
+    const page = document.getElementsByClassName(`container`);
+    const popup = document.createElement(`div`);
     popup.className = `congratsPopup dimmed`;
     popup.innerHTML = ``;
     page[0].appendChild(popup);
@@ -264,23 +252,23 @@ function buildCongrats() {
 
 // Display the congrats message with the move count, total time, star rating and play again 'button'
 function displayCongrats() {
-    var popup = document.getElementsByClassName(`congratsPopup`);
+    const popup = document.getElementsByClassName(`congratsPopup`);
     popup[0].className = `congratsPopup`;
     popup[0].innerHTML =
         `<h2 class="congratsHeading" > Congratulations! </h2>
         <h3 class="congratsTagline" > You've won the game! </h3>
-        <p class="congratsMove" > ${move} moves </p>
+        <p class="congratsMove" > ${moveCounter} moves </p>
         <p class="congratsTime" > ${timer.innerHTML} total time </p>
         <p class="congratsStar" > ${starRating} stars </p>
         <p class="congratsPlay" > Play Again </p>`;
-    var play = document.getElementsByClassName(`congratsPlay`);
+    const play = document.getElementsByClassName(`congratsPlay`);
     play[0].addEventListener(`click`,reset);
 }
 
 // Hide the congrats popup by adding the class 'dimmed'
 // Erase the congrats text messages
 function hideCongrats() {
-    var popup = document.getElementsByClassName(`congratsPopup`);
+    const popup = document.getElementsByClassName(`congratsPopup`);
     popup[0].className = `congratsPopup dimmed`;
     popup[0].innerHTML = ``;
 }
@@ -289,14 +277,14 @@ function hideCongrats() {
 function lowerStars() {
     starRating--;
     tryCounter = 0;
-    var stars = document.getElementsByClassName(`fa-star`);
+    const stars = document.getElementsByClassName(`fa-star`);
     stars[starRating].className = `fa fa-star dimmed`;
 }
 
 // Reset the rating to 3 and show all stars by removing the class 'dimmed'
 function resetStars() {
     starRating = 3;
-    var stars = document.getElementsByClassName(`fa-star`);
+    const stars = document.getElementsByClassName(`fa-star`);
     for (var i=0; i<3; i=i+1){
         stars[i].className = `fa fa-star`;
     }
