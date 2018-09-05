@@ -6,26 +6,26 @@ let openedCards = [],
     timeInt = 0;
 
 // Grab the score-panel, add a timer with default value of 00:00, and initialize the total seconds to 0
-var timer = document.createElement(`div`);
+const timer = document.createElement(`div`);
 timer.className = `timer`;
 timer.innerHTML = `00:00`;
-var panel = document.getElementsByClassName(`score-panel`);
+const panel = document.getElementsByClassName(`score-panel`);
 panel[0].appendChild(timer);
-var totalSeconds = 0;
+let totalSeconds = 0;
 
 // Grab the deck div element from the HTML
-var deck = document.getElementsByClassName(`deck`);
+let deck = document.getElementsByClassName(`deck`);
 
 // Grab the 'moves' from the HTML and change the text to 0
-var moves = document.getElementsByClassName(`moves`);
+let moves = document.getElementsByClassName(`moves`);
 moves[0].innerHTML = 0;
 
 // Grab the 'reset' icon from the HTML
-var restart = document.getElementsByClassName(`fa-repeat`);
+const restart = document.getElementsByClassName(`fa-repeat`);
 
 // Define the symbols and create a deck of cards holding two of each symbol
-var symbols = [`anchor`, `bicycle`, `bolt`, `bomb`, `cube`, `diamond`, `leaf`, `paper-plane-o`];
-var cards = [...symbols, ...symbols];
+const symbols = [`anchor`, `bicycle`, `bolt`, `bomb`, `cube`, `diamond`, `leaf`, `paper-plane-o`];
+const cards = [...symbols, ...symbols];
 
 // Returns a shuffled list of items
 // Shuffle function from http://stackoverflow.com/a/2450976
@@ -64,7 +64,7 @@ function reset() {
     resetCounter();
     resetStars();
     clearDeck(deck);
-    var shuffledDeck = shuffle(cards);
+    let shuffledDeck = shuffle(cards);
     createDeckHTML(shuffledDeck);
     hideCongrats();
 }
@@ -82,10 +82,10 @@ function createDeckHTML(deck) {
     ul.className = `deck`;
     const container = document.getElementsByClassName(`container`);
     container[0].appendChild(ul);
-    for (var i=0; i<deck.length; i=i+1){
-        var li = document.createElement(`li`);
+    for (let i=0; i<deck.length; i++){
+        const li = document.createElement(`li`);
         li.className = `card`;
-        var inner = document.createElement(`i`);
+        const inner = document.createElement(`i`);
         inner.className = `fa fa-${deck[i]}`;
         ul.appendChild(li);
         li.appendChild(inner);
@@ -106,7 +106,7 @@ function processClick() {
     // Test 3: User can not click already matched cards
     if ((openedCards.length < 2) && (!isSameCard(this)) && (!isAlreadyMatched(this)) ) {
         // Count the number of clicks that do not result a match
-        tryCounter=tryCounter+1;
+        tryCounter++;
 
         displayCard(this);
         addOpenedList(this);
@@ -117,15 +117,15 @@ function processClick() {
             timeInt = setInterval(startTimer, 1000);
         }
         // if two cards are open
-        else if(openedCards.length === 2){
+        if(openedCards.length === 2){
             // if the two opened cards match
-            else if(openedCards[0] === openedCards[1]){
+            if(openedCards[0] === openedCards[1]){
                 // Reset the failed match count back to 0
                 tryCounter = 0;
                 lockMatch();
                 removeOpenedList();
                 // if all 16 cards are matched, stop the timer and display congrats
-                else if (matchCounter === 16){
+                if (matchCounter === 16){
                     stopTimer();
                     // Allow time for the matching animation to finish before display popup
                     setTimeout(function() {
@@ -157,8 +157,8 @@ function startTimer(){
     function addZero(i) {
         return (i < 10) ? `0` + i : i;
     }
-    var min = addZero(Math.floor(totalSeconds/60));
-    var sec = addZero(totalSeconds - (min*60));
+    let min = addZero(Math.floor(totalSeconds/60));
+    let sec = addZero(totalSeconds - (min*60));
     timer.innerHTML = `${min}:${sec}`;
 }
 
@@ -181,7 +181,7 @@ function displayCard(item) {
 
 // Hide opened cards by removing the 'open' and 'show' class name
 function hideCards() {
-    var openClass = document.getElementsByClassName(`open`);
+    let openClass = document.getElementsByClassName(`open`);
     while (openClass.length){
         openClass[0].className = `card`;
     }
@@ -201,9 +201,9 @@ function isAlreadyMatched(item) {
 
 // Add the item to a list of opened symbols
 function addOpenedList(item) {
-    var inner = item.childNodes;
-    for (var i=0; i<inner.length; i=i+1){
-        var symbol = inner[i].className;
+    let inner = item.childNodes;
+    for (let i=0; i<inner.length; i++){
+        let symbol = inner[i].className;
         // remove the 'fa fa-'
         symbol = symbol.slice(6);
         openedCards.push(symbol);
@@ -224,10 +224,10 @@ function resetCounter() {
 // Keep the matched cards opened by setting the class name to 'card match'
 // Increase the match count by 2
 function lockMatch() {
-    var faSymbol = `fa-${openedCards[0]}`;
-    var collection = document.getElementsByClassName(`${faSymbol}`);
+    let faSymbol = `fa-${openedCards[0]}`;
+    let collection = document.getElementsByClassName(`${faSymbol}`);
 
-    for(var i=0; i<collection.length; i=i+1){
+    for(let i=0; i<collection.length; i++){
         collection[i].parentElement.className = `card match`;
     }
     matchCounter += 2;
@@ -284,7 +284,7 @@ function lowerStars() {
 function resetStars() {
     starRating = 3;
     const stars = document.getElementsByClassName(`fa-star`);
-    for (var i=0; i<3; i=i+1){
+    for (let i=0; i<3; i++){
         stars[i].className = `fa fa-star`;
     }
 }
