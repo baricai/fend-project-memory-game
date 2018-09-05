@@ -1,4 +1,4 @@
-var openedCards = [],
+let openedCards = [],
     matchCounter = 0,
     moveCounter = 0,
     tryCounter = 0,
