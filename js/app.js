@@ -1,9 +1,29 @@
+  // Define the symbols and create a deck of cards holding two of each symbol
+var cards = ["fa fa-diamond", "fa fa-paper-plane-o","fa fa-anchor", "fa fa-bolt","fa fa-cube","fa fa-anchor", "fa fa-leaf", "fa fa-bicycle", "fa fa-diamond", "fa fa-bomb", "fa fa-leaf", "fa fa-bomb", "fa fa-bolt", "fa fa-bicycle", "fa fa-paper-plane-o", "fa fa-cube"];
+var grid = [];  
+
     var openedCards = [];
     var matchCounter = 0;
     var moveCounter = 0;
     var tryCounter = 0;
     var starRating = 3;
     var timeInt = 0;
+
+// 1. Resets the game to default values
+// 2. Remove the old deck of cards
+// 3. Create a new shuffled deck of cards
+// 4. Hide the Congrats popup
+function reset() {
+    openedCards = [];
+    matchCounter = 0;
+    tryCounter = 0;
+    resetTimer();
+    resetCounter();
+    resetStars();
+    clearDeck(deck);
+    let shuffledDeck = shuffle(cards);
+    createDeckHTML(shuffledDeck);
+    hideCongrats();
 
 // Grab the score-panel, add a timer with default value of 00:00, and initialize the total seconds to 0
 const timer = document.createElement(`div`);
@@ -23,9 +43,7 @@ moves[0].innerHTML = 0;
 // Grab the 'reset' icon from the HTML
 const restart = document.getElementsByClassName(`fa-repeat`);
 
-// Define the symbols and create a deck of cards holding two of each symbol
-var cards = ["fa fa-diamond", "fa fa-paper-plane-o","fa fa-anchor", "fa fa-bolt","fa fa-cube","fa fa-anchor", "fa fa-leaf", "fa fa-bicycle", "fa fa-diamond", "fa fa-bomb", "fa fa-leaf", "fa fa-bomb", "fa fa-bolt", "fa fa-bicycle", "fa fa-paper-plane-o", "fa fa-cube"];
-var grid = [];
+
 
 // Returns a shuffled list of items
 // Shuffle function from http://stackoverflow.com/a/2450976
@@ -52,21 +70,7 @@ restart[0].addEventListener(`click`, reset);
 // Call the reset function when page first loads
 reset();
 
-// 1. Resets the game to default values
-// 2. Remove the old deck of cards
-// 3. Create a new shuffled deck of cards
-// 4. Hide the Congrats popup
-function reset() {
-    openedCards = [];
-    matchCounter = 0;
-    tryCounter = 0;
-    resetTimer();
-    resetCounter();
-    resetStars();
-    clearDeck(deck);
-    let shuffledDeck = shuffle(cards);
-    createDeckHTML(shuffledDeck);
-    hideCongrats();
+
 }
 
 // Clear the old deck of cards by removing the HTML elements passed into it
