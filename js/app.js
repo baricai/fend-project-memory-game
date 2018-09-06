@@ -25,7 +25,7 @@ const restart = document.getElementsByClassName(`fa-repeat`);
 
 // Define the symbols and create a deck of cards holding two of each symbol
 var cards = ["fa fa-diamond", "fa fa-paper-plane-o","fa fa-anchor", "fa fa-bolt","fa fa-cube","fa fa-anchor", "fa fa-leaf", "fa fa-bicycle", "fa fa-diamond", "fa fa-bomb", "fa fa-leaf", "fa fa-bomb", "fa fa-bolt", "fa fa-bicycle", "fa fa-paper-plane-o", "fa fa-cube"];
-var grid = [];
+var grid = [...cards, ...cars];
 
 // Returns a shuffled list of items
 // Shuffle function from http://stackoverflow.com/a/2450976
