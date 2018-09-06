@@ -1,9 +1,9 @@
-let openedCards = [],
-    matchCounter = 0,
-    moveCounter = 0,
-    tryCounter = 0,
-    starRating = 3,
-    timeInt = 0;
+var openedCards = [];
+    var matchCounter = 0;
+    var moveCounter = 0;
+    var tryCounter = 0;
+    var starRating = 3;
+    var timeInt = 0;
 
 // Grab the score-panel, add a timer with default value of 00:00, and initialize the total seconds to 0
 const timer = document.createElement(`div`);
