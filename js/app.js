@@ -9,21 +9,7 @@ var grid = [...cards,...cards];
     var starRating = 3;
     var timeInt = 0;
 
-// 1. Resets the game to default values
-// 2. Remove the old deck of cards
-// 3. Create a new shuffled deck of cards
-// 4. Hide the Congrats popup
-function reset() {
-    openedCards = [];
-    matchCounter = 0;
-    tryCounter = 0;
-    resetTimer();
-    resetCounter();
-    resetStars();
-    clearDeck(deck);
-    let shuffledDeck = shuffle(cards);
-    createDeckHTML(shuffledDeck);
-    hideCongrats();
+
 
 // Grab the score-panel, add a timer with default value of 00:00, and initialize the total seconds to 0
 const timer = document.createElement(`div`);
@@ -60,6 +46,22 @@ function shuffle(array) {
 
     return array;
 }
+
+// 1. Resets the game to default values
+// 2. Remove the old deck of cards
+// 3. Create a new shuffled deck of cards
+// 4. Hide the Congrats popup
+function reset() {
+    openedCards = [];
+    matchCounter = 0;
+    tryCounter = 0;
+    resetTimer();
+    resetCounter();
+    resetStars();
+    clearDeck(deck);
+    let shuffledDeck = shuffle(cards);
+    createDeckHTML(shuffledDeck);
+    hideCongrats();
 
 // Call the buildCongrats function once
 buildCongrats();
