@@ -1,4 +1,4 @@
-var openedCards = [];
+    var openedCards = [];
     var matchCounter = 0;
     var moveCounter = 0;
     var tryCounter = 0;
