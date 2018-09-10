@@ -24,8 +24,33 @@ function reset() {
     clearDeck(deck);
     var shuffledDeck = shuffle(cards);
     createDeckHTML(shuffledDeck);
-    hideCongrats();
 }
+
+// Shuffle function from http://stackoverflow.com/a/2450976
+function shuffle(array) {
+    var currentIndex = array.length, temporaryValue, randomIndex;
+
+    while (currentIndex !== 0) {
+        randomIndex = Math.floor(Math.random() * currentIndex);
+        currentIndex -= 1;
+        temporaryValue = array[currentIndex];
+        array[currentIndex] = array[randomIndex];
+        array[randomIndex] = temporaryValue;
+    }
+
+    return array;
+}
+
+/*
+ * set up the event listener for a card. If a card is clicked:
+ *  - display the card's symbol (put this functionality in another function that you call from this one)
+ *  - add the card to a *list* of "open" cards (put this functionality in another function that you call from this one)
+ *  - if the list already has another card, check to see if the two cards match
+ *    + if the cards do match, lock the cards in the open position (put this functionality in another function that you call from this one)
+ *    + if the cards do not match, remove the cards from the list and hide the card's symbol (put this functionality in another function that you call from this one)
+ *    + increment the move counter and display it on the page (put this functionality in another function that you call from this one)
+ *    + if all cards have matched, display a message with the final score (put this functionality in another function that you call from this one)
+ */
 
 // Grab the score-panel, add a timer with default value of 00:00, and initialize the total seconds to 0
 const timer = document.createElement(`div`);
@@ -53,23 +78,10 @@ var restart = document.getElementsByClassName(`fa-repeat`);
  *   - add each card's HTML to the page
  */
 
-// Shuffle function from http://stackoverflow.com/a/2450976
-function shuffle(array) {
-    var currentIndex = array.length, temporaryValue, randomIndex;
 
-    while (currentIndex !== 0) {
-        randomIndex = Math.floor(Math.random() * currentIndex);
-        currentIndex -= 1;
-        temporaryValue = array[currentIndex];
-        array[currentIndex] = array[randomIndex];
-        array[randomIndex] = temporaryValue;
-    }
-
-    return array;
-}
 
 // Call the buildCongrats function once
-buildCongrats();
+
 
 // Add eventlistener to listen for click on reset button
 restart[0].addEventListener(`click`, reset);
@@ -124,7 +136,7 @@ function processClick() {
 
         // Start the timer if it is the first click
         if (moveCounter === 1) {
-            timeInt = setInterval(startTimer, 1000);
+            timeInt = setInterval(startTimer, 900);
         }
         // if two cards are open
         if(openedCards.length === 2){
@@ -251,32 +263,14 @@ function removeOpenedList() {
 
 // Create a div element to add to the page that will hold the congrats message later
 // Hide the div element initially
-function buildCongrats() {
-    const page = document.getElementsByClassName(`container`);
-    const popup = document.createElement(`div`);
-    popup.className = `congratsPopup dimmed`;
-    popup.innerHTML = ``;
-    page[0].appendChild(popup);
-}
+
 
 // Display the congrats message with the move count, total time, star rating and play again 'button'
-function displayCongrats() {
-    var popup = document.getElementsByClassName(`congratsPopup`);
-    popup[0].className = `congratsPopup`;
-    popup[0].innerHTML =
-        <h2 class= 'congratsHeading' > Congrats! </h2>;
-        
-    const play = document.getElementsByClassName(`congratsPlay`);
-    play[0].addEventListener(`click`,reset);
-}
+
 
 // Hide the congrats popup by adding the class 'dimmed'
 // Erase the congrats text messages
-function hideCongrats() {
-    const popup = document.getElementsByClassName(`congratsPopup`);
-    popup[0].className = `congratsPopup dimmed`;
-    popup[0].innerHTML = ``;
-}
+
 
 
 // Lower the star rating by one, and hide the last star by adding the class 'dimmed'
