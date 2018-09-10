@@ -312,3 +312,4 @@ function resetStars() {
         stars[i].className = "fa fa-star";
     }
 }
+
