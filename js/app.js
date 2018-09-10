@@ -28,22 +28,22 @@ function reset() {
 }
 
 // Grab the score-panel, add a timer with default value of 00:00, and initialize the total seconds to 0
-const timer = document.createElement("div");
-timer.className = "timer";
-timer.innerHTML = "00:00";
-const panel = document.getElementsByClassName("score-panel");
+const timer = document.createElement(`div`);
+timer.className = `timer`;
+timer.innerHTML = `00:00`;
+const panel = document.getElementsByClassName(`score-panel`);
 panel[0].appendChild(timer);
 let totalSeconds = 0;
 
 // Grab the deck div element from the HTML
-var deck = document.getElementsByClassName("deck");
+var deck = document.getElementsByClassName(`deck`);
 
 // Grab the 'moves' from the HTML and change the text to 0
-var moves = document.getElementsByClassName("moves");
+var moves = document.getElementsByClassName(`moves`);
 moves[0].innerHTML = 0;
 
 // Grab the 'reset' icon from the HTML
-var restart = document.getElementsByClassName("fa-repeat");
+var restart = document.getElementsByClassName(`fa-repeat`);
 
 
 /*
@@ -72,7 +72,7 @@ function shuffle(array) {
 buildCongrats();
 
 // Add eventlistener to listen for click on reset button
-restart[0].addEventListener("click", reset);
+restart[0].addEventListener(`click`, reset);
 
 // Call the reset function when page first loads
 reset();
@@ -88,18 +88,18 @@ function clearDeck(deck) {
 // It adds the proper classname to each card, add an eventlistener to each card
 // It then appends the list to the webpage
 function createDeckHTML(deck) {
-    var ul = document.createElement("ul");
+    var ul = document.createElement(`ul`);
     ul.className = `deck`;
-    let container = document.getElementsByClassName("container");
+    let container = document.getElementsByClassName(`container`);
     container[0].appendChild(ul);
     for (var i=0; i<deck.length; i++){
-        var li = document.createElement("li");
+        var li = document.createElement(`li`);
         li.className = "card";
-        var inner = document.createElement("i");
+        var inner = document.createElement(`i`);
         inner.className = `fa fa-${deck[i]}`;
         ul.appendChild(li);
         li.appendChild(inner);
-        li.addEventListener("click", processClick);
+        li.addEventListener(`click`, processClick);
     }
 }
 
@@ -186,20 +186,20 @@ function stopTimer(){
 
 // Show the card by adding 'open' and 'show' class name
 function displayCard(item) {
-    item.className = "card open show";
+    item.className = `card open show`;
 }
 
 // Hide opened cards by removing the 'open' and 'show' class name
 function hideCards() {
-    var openClass = document.getElementsByClassName("open");
+    var openClass = document.getElementsByClassName(`open`);
     while (openClass.length){
-        openClass[0].className = "card";
+        openClass[0].className = `card`;
     }
 }
 
 // Return true if the item is already opened and false if not
 function isSameCard(item) {
-    const isSame = (item.className === "card open show") ? true : false;
+    const isSame = (item.className === `card open show`) ? true : false;
     return isSame;
 }
 
@@ -238,7 +238,7 @@ function lockMatch() {
     var collection = document.getElementsByClassName(`${fa}`);
 
     for(var i=0; i<collection.length; i++){
-        collection[i].parentElement.className = "card match";
+        collection[i].parentElement.className = `card match`;
     }
     matchCounter += 2;
 }
@@ -283,15 +283,15 @@ function hideCongrats() {
 function lowerStars() {
     star--;
     tryCounter = 0;
-    const stars = document.getElementsByClassName("fa-star");
-    stars[starRating].className = "fa fa-star dimmed";
+    const stars = document.getElementsByClassName(`fa-star`);
+    stars[starRating].className = `fa fa-star dimmed`;
 }
 
 // Reset the rating to 3 and show all stars by removing the class 'dimmed'
 function resetStars() {
     star = 3;
-    var stars = document.getElementsByClassName("fa-star");
+    var stars = document.getElementsByClassName(`fa-star`);
     for (var i=0; i<3; i++){
-        stars[i].className = "fa fa-star";
+        stars[i].className = `fa fa-star`;
     }
 }
