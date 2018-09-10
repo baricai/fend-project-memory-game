@@ -55,7 +55,7 @@ function shuffle(array) {
 // Grab the score-panel, add a timer with default value of 00:00, and initialize the total seconds to 0
 const timer = document.createElement(`div`);
 timer.className = `timer`;
-timer.innerHTML = `00:00`;
+timer.innerHTML = `0:00`;
 const panel = document.getElementsByClassName(`score-panel`);
 panel[0].appendChild(timer);
 let totalSeconds = 0;
