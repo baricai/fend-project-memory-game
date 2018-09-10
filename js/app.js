@@ -264,7 +264,7 @@ function displayCongrats() {
     var popup = document.getElementsByClassName(`congratsPopup`);
     popup[0].className = `congratsPopup`;
     popup[0].innerHTML =
-        <h2 class="congratsHeading" > Congrats! </h2>;
+        <h2 class= 'congratsHeading' > Congrats! </h2>;
         
     const play = document.getElementsByClassName(`congratsPlay`);
     play[0].addEventListener(`click`,reset);
