@@ -188,7 +188,6 @@ function addOpenedList(item) {
     var inner = item.childNodes;
     for (var i=0; i<inner.length; i++){
         var symbol = inner[i].className;
-        // remove the 'fa fa-'
         symbol = symbol.slice(6);
         openedCards.push(symbol);
     }
@@ -213,7 +212,6 @@ function lockMatch() {
     matchCounter += 2;
 }
 
-// Remove the two items in the list of opened card symbols
 function removeOpenedList() {
     openedCards.pop();
     openedCards.pop();
