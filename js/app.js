@@ -5,15 +5,15 @@
  *   - add each card's HTML to the page
  */
 
-var cards = ["fa fa-diamond", "fa fa-paper-plane-o","fa fa-anchor", "fa fa-bolt","fa fa-cube","fa fa-anchor", "fa fa-leaf", "fa fa-bicycle", "fa fa-diamond", "fa fa-bomb", "fa fa-leaf", "fa fa-bomb", "fa fa-bolt", "fa fa-bicycle", "fa fa-paper-plane-o", "fa fa-cube"];
-var grid = [];  
+const cards = ["fa fa-diamond", "fa fa-paper-plane-o","fa fa-anchor", "fa fa-bolt","fa fa-cube","fa fa-anchor", "fa fa-leaf", "fa fa-bicycle", "fa fa-diamond", "fa fa-bomb", "fa fa-leaf", "fa fa-bomb", "fa fa-bolt", "fa fa-bicycle", "fa fa-paper-plane-o", "fa fa-cube"];
+const grid = [];  
 
-var openedCards = [];
-var moveCounter = 0;
-var matchCounter = 0;
-var star = 3;
-var tryCounter = 0;
-var timeInt = 0;
+let openedCards = [];
+let moveCounter = 0;
+let matchCounter = 0;
+let star = 3;
+let tryCounter = 0;
+let timeInt = 0;
 
 function reset() {
     openedCards = [];
@@ -23,14 +23,14 @@ function reset() {
     resetCounter();
     resetStars();
     clearDeck(deck);
-    var shuffledDeck = shuffle(cards);
+    let shuffledDeck = shuffle(cards);
     createDeckHTML(shuffledDeck);
     
 }
 
 // Shuffle function from http://stackoverflow.com/a/2450976
 function shuffle(array) {
-    var currentIndex = array.length, temporaryValue, randomIndex;
+    let currentIndex = array.length, temporaryValue, randomIndex;
 
     while (currentIndex !== 0) {
         randomIndex = Math.floor(Math.random() * currentIndex);
@@ -55,11 +55,11 @@ function shuffle(array) {
  */
 
 
-var moves = document.getElementsByClassName("moves");
+const moves = document.getElementsByClassName("moves");
 moves[0].innerHTML = 0;
 
-var deck = document.getElementsByClassName("deck");
-var restart = document.getElementsByClassName("fa-repeat");
+let deck = document.getElementsByClassName("deck");
+let restart = document.getElementsByClassName("fa-repeat");
 
 
 const timer = document.createElement("div");
@@ -81,14 +81,14 @@ function clearDeck(deck) {
 
 
 function createDeckHTML(deck) {
-    var ul = document.createElement("ul");
+    let ul = document.createElement("ul");
     ul.className = `deck`;
-    var container = document.getElementsByClassName("container");
+    let container = document.getElementsByClassName("container");
     container[0].appendChild(ul);
-    for (var i=0; i<deck.length; i++){
-        var li = document.createElement("li");
+    for (let i=0; i<deck.length; i++){
+        let li = document.createElement("li");
         li.className = "card";
-        var inner = document.createElement("i");
+        let inner = document.createElement("i");
         inner.className = `fa fa-${deck[i]}`;
         ul.appendChild(li);
         li.appendChild(inner);
@@ -147,8 +147,8 @@ function startTimer(){
     function addZero(i) {
         return (i < 10) ? `0` + i : i;
     }
-    var min = addZero(Math.floor(totalSeconds/60));
-    var sec = addZero(totalSeconds - (min*60));
+    let min = addZero(Math.floor(totalSeconds/60));
+    let sec = addZero(totalSeconds - (min*60));
     timer.innerHTML = `${min}:${sec}`;
 }
 
@@ -168,26 +168,26 @@ function displayCard(item) {
 }
 
 function hideCards() {
-    var openClass = document.getElementsByClassName("open");
+    let openClass = document.getElementsByClassName("open");
     while (openClass.length){
         openClass[0].className = "card";
     }
 }
 
 function isSameCard(item) {
-    var isSame = (item.className === "card open show") ? true : false;
+    let isSame = (item.className === "card open show") ? true : false;
     return isSame;
 }
 
 function isAlreadyMatched(item) {
-    var isAM = (item.className === "card match") ? true : false;
+    let isAM = (item.className === "card match") ? true : false;
     return isAM;
 }
 
 function addOpenedList(item) {
-    var inner = item.childNodes;
-    for (var i=0; i<inner.length; i++){
-        var symbol = inner[i].className;
+    let inner = item.childNodes;
+    for (let i=0; i<inner.length; i++){
+        let symbol = inner[i].className;
         symbol = symbol.slice(6);
         openedCards.push(symbol);
     }
@@ -203,10 +203,10 @@ function resetCounter() {
 }
 
 function lockMatch() {
-    var fa = `fa-${openedCards[0]}`;
-    var collection = document.getElementsByClassName(`${fa}`);
+    let fa = `fa-${openedCards[0]}`;
+    let collection = document.getElementsByClassName(`${fa}`);
 
-    for(var i=0; i<collection.length; i++){
+    for(let i=0; i<collection.length; i++){
         collection[i].parentElement.className = "card match";
     }
     matchCounter += 2;
@@ -227,7 +227,7 @@ function lowerStars() {
 function resetStars() {
     star = 3;
     var stars = document.getElementsByClassName("fa-star");
-    for (var i=0; i<3; i++){
+    for (let i=0; i<3; i++){
         stars[i].className = "fa fa-star";
     }
 }
