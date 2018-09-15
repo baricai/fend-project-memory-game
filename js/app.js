@@ -239,7 +239,7 @@ function removeOpenedList() {
 }
 
 
-function lowerStars() 
+function lowerStars() {
     starRating--;
     tryCounter = 0;
     const stars = document.getElementsByClassName("fa-star");
