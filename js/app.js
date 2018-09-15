@@ -18,7 +18,7 @@ let timeInt = 0;
 function reset() {
     openedCards = [];
     matchCounter = 0;
-    hideCongrats();
+    
     tryCounter = 0;
     resetTimer();
     resetCounter();
