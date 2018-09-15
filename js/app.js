@@ -240,9 +240,11 @@ function removeOpenedList() {
 
 
 function lowerStars() {
+    console.log("lowerStars called");
     starRating--;
     tryCounter = 0;
     const stars = document.getElementsByClassName("fa-star");
+    console.log()
     stars[starRating].className = "fa fa-star dimmed";
 }
 
