@@ -223,7 +223,7 @@ function lowerStars() {
     star--;
     tryCounter = 0;
     var stars = document.getElementsByClassName("fa-star");
-    stars[starRating].className = "fa fa-star dimmed";
+    stars[star].className = "fa fa-star dimmed";
 }
 
 function resetStars() {
