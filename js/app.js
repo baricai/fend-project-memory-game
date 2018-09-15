@@ -231,4 +231,4 @@ function resetStars() {
     for (let i=0; i<3; i++){
         stars[i].className = "fa fa-star";
     }
-}
+
