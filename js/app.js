@@ -280,3 +280,4 @@ function hideCongrats() {
     popup[0].className = `congratsPopup dimmed`;
     popup[0].innerHTML = ``;
 }
+}
