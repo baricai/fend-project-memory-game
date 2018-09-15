@@ -253,4 +253,30 @@ function resetStars() {
     for (var i=0; i<3; i++){
         stars[i].className = "fa fa-star";
     }
+
+ buildCongrats();
+ hideCongrats();
+
+function buildCongrats() {
+    const page = document.getElementsByClassName(`container`);
+    const popup = document.createElement(`div`);
+    popup.className = `congratsPopup dimmed`;
+    popup.innerHTML = ``;
+    page[0].appendChild(popup);
+}
+
+function displayCongrats() {
+    var popup = document.getElementsByClassName(`congratsPopup`);
+    popup[0].className = `congratsPopup`;
+    popup[0].innerHTML =
+        `<h2 class="congratsHeading" > Congratulations! </h2>`;
+        
+    const play = document.getElementsByClassName(`congratsPlay`);
+    play[0].addEventListener(`click`,reset);
+}
+
+function hideCongrats() {
+    const popup = document.getElementsByClassName(`congratsPopup`);
+    popup[0].className = `congratsPopup dimmed`;
+    popup[0].innerHTML = ``;
 }
