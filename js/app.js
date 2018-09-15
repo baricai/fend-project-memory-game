@@ -128,7 +128,7 @@ function processClick() {
                 lockMatch();
                 removeOpenedList();
                 
-                if (match === 16){
+                if (matchCounter === 16){
                     stopTimer();
                     
                     setTimeout(function() {
