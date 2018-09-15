@@ -1,4 +1,4 @@
- /*
+/*
  * Display the cards on the page
  *   - shuffle the list of cards using the provided "shuffle" method below
  *   - loop through each card and create its HTML
@@ -11,14 +11,14 @@ const grid = [];
 let openedCards = [];
 let moveCounter = 0;
 let matchCounter = 0;
-let star = 3;
+let starRating = 3;
 let tryCounter = 0;
 let timeInt = 0;
 
 function reset() {
     openedCards = [];
     matchCounter = 0;
-    
+    hideCongrats();
     tryCounter = 0;
     resetTimer();
     resetCounter();
@@ -57,7 +57,7 @@ function shuffle(array) {
 
 
 let moves = document.getElementsByClassName("moves");
-moves[0].innerHTML = "0";
+moves[0].innerHTML = 0;
 
 let deck = document.getElementsByClassName("deck");
 let restart = document.getElementsByClassName("fa-repeat");
@@ -219,16 +219,15 @@ function removeOpenedList() {
 }
 
 function lowerStars() {
-    star--;
+    starRating--;
     tryCounter = 0;
     var stars = document.getElementsByClassName("fa-star");
-    stars[star].className = "fa fa-star dimmed";
+    stars[starRating].className = "fa fa-star dimmed";
 }
 
 function resetStars() {
-    star = 3;
+    starRating = 3;
     var stars = document.getElementsByClassName("fa-star");
     for (let i=0; i<3; i++){
         stars[i].className = "fa fa-star";
     }
-}
