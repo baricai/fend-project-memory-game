@@ -231,3 +231,12 @@ function resetStars() {
     for (let i=0; i<3; i++){
         stars[i].className = "fa fa-star";
     }
+
+function displayCongrats() {
+    const popup = document.getElementsByClassName(`congratsPopup`);
+    popup[0].className = `congratsPopup`;
+    popup[0].innerHTML =
+        `<h2 class="congratsHeading" > Congratulations! </h2>`;
+        const play = document.getElementsByClassName(`congratsPlay`);
+    play[0].addEventListener(`click`,reset);
+}
