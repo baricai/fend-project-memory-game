@@ -19,8 +19,7 @@ function reset() {
     openedCards = [];
     matchCounter = 0;
     match = 0;
-    buildCongrats();
-    displayCongrats();
+    hideCongrats();
     tryCounter = 0;
     resetTimer();
     resetCounter();
@@ -233,22 +232,13 @@ function resetStars() {
     for (let i=0; i<3; i++){
         stars[i].className = "fa fa-star";
     }
-}
 
-function buildCongrats() {
-    let page = document.getElementsByClassName(`container`);
-    let popup = document.createElement(`div`);
-    popup.className = `congratsPopup`;
-    popup.innerHTML = ``;
-    page[0].appendChild(popup);
-}
 
-function displayCongrats() {
-    let popup = document.getElementsByClassName(`congratsPopup`);
-    popup[0].className = `congratsPopup`;
-    popup[0].innerHTML =
-        <h2 class=`congratsHeading` > Congratulations! </h2>;
-        
-    let play = document.getElementsByClassName(`congratsPlay`);
-    play[0].addEventListener(`click`,reset);
-}
+function lowerStars() {
+    star--;
+    tryCounter = 0;
+    const stars = document.getElementsByClassName(`fa-star`);
+    stars[starRating].className = `fa fa-star dimmed `;
+
+
+
