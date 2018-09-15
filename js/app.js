@@ -18,7 +18,6 @@ let timeInt = 0;
 function reset() {
     openedCards = [];
     matchCounter = 0;
-    match = 0;
     hideCongrats();
     tryCounter = 0;
     resetTimer();
@@ -57,14 +56,14 @@ function shuffle(array) {
  */
 
 
-const moves = document.getElementsByClassName("moves");
-moves[0].innerHTML = 0;
+let moves = document.getElementsByClassName("moves");
+moves[0].innerHTML = "0";
 
 let deck = document.getElementsByClassName("deck");
 let restart = document.getElementsByClassName("fa-repeat");
 
 
-const timer = document.createElement("div");
+let timer = document.createElement("div");
 timer.className = "timer";
 timer.innerHTML = "0:00";
 const panel = document.getElementsByClassName("score-panel");
@@ -119,7 +118,7 @@ function processClick() {
                 lockMatch();
                 removeOpenedList();
                 
-                if (match === 16){
+                if (matchCounter === 16){
                     stopTimer();
                     
                     setTimeout(function() {
@@ -232,8 +231,3 @@ function resetStars() {
     for (let i=0; i<3; i++){
         stars[i].className = "fa fa-star";
     }
-
-
-
-
-
