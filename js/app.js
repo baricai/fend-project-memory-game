@@ -234,11 +234,6 @@ function resetStars() {
     }
 
 
-function lowerStars() {
-    star--;
-    tryCounter = 0;
-    const stars = document.getElementsByClassName(`fa-star`);
-    stars[starRating].className = `fa fa-star dimmed `;
 
 
 
