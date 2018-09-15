@@ -5,33 +5,32 @@
  *   - add each card's HTML to the page
  */
 
-const cards = ["fa fa-diamond", "fa fa-paper-plane-o","fa fa-anchor", "fa fa-bolt","fa fa-cube","fa fa-anchor", "fa fa-leaf", "fa fa-bicycle", "fa fa-diamond", "fa fa-bomb", "fa fa-leaf", "fa fa-bomb", "fa fa-bolt", "fa fa-bicycle", "fa fa-paper-plane-o", "fa fa-cube"];
-const grid = [];  
+var cards = ["fa fa-diamond", "fa fa-paper-plane-o","fa fa-anchor", "fa fa-bolt","fa fa-cube","fa fa-anchor", "fa fa-leaf", "fa fa-bicycle", "fa fa-diamond", "fa fa-bomb", "fa fa-leaf", "fa fa-bomb", "fa fa-bolt", "fa fa-bicycle", "fa fa-paper-plane-o", "fa fa-cube"];
+var grid = [];  
 
-let openedCards = [];
-let moveCounter = 0;
-let matchCounter = 0;
-let starRating = 3;
-let tryCounter = 0;
-let timeInt = 0;
+var openedCards = [];
+var moveCounter = 0;
+var matchCounter = 0;
+var starRating = 3;
+var tryCounter = 0;
+var timeInt = 0;
 
 function reset() {
     openedCards = [];
     matchCounter = 0;
-    hideCongrats();
     tryCounter = 0;
     resetTimer();
     resetCounter();
     resetStars();
     clearDeck(deck);
-    let shuffledDeck = shuffle(cards);
+    var shuffledDeck = shuffle(cards);
     createDeckHTML(shuffledDeck);
     
 }
 
 // Shuffle function from http://stackoverflow.com/a/2450976
 function shuffle(array) {
-    let currentIndex = array.length, temporaryValue, randomIndex;
+    var currentIndex = array.length, temporaryValue, randomIndex;
 
     while (currentIndex !== 0) {
         randomIndex = Math.floor(Math.random() * currentIndex);
@@ -55,41 +54,61 @@ function shuffle(array) {
  *    + if all cards have matched, display a message with the final score (put this functionality in another function that you call from this one)
  */
 
-
-let moves = document.getElementsByClassName("moves");
-moves[0].innerHTML = 0;
-
-let deck = document.getElementsByClassName("deck");
-let restart = document.getElementsByClassName("fa-repeat");
-
-
-let timer = document.createElement("div");
+const timer = document.createElement("div");
 timer.className = "timer";
-timer.innerHTML = "0:00";
+timer.innerHTML = "00:00";
 const panel = document.getElementsByClassName("score-panel");
 panel[0].appendChild(timer);
 let totalSeconds = 0;
 
+// Grab the deck div element from the HTML
+var deck = document.getElementsByClassName("deck");
 
+// Grab the 'moves' from the HTML and change the text to 0
+var moves = document.getElementsByClassName("moves");
+moves[0].innerHTML = 0;
+
+// Grab the 'reset' icon from the HTML
+var restart = document.getElementsByClassName("fa-repeat");
+
+
+/*
+ * Display the cards on the page
+ *   - shuffle the list of cards using the provided "shuffle" method below
+ *   - loop through each card and create its HTML
+ *   - add each card's HTML to the page
+ */
+
+
+
+// Call the buildCongrats function once
+
+
+// Add eventlistener to listen for click on reset button
 restart[0].addEventListener("click", reset);
 
+// Call the reset function when page first loads
 reset();
 
 
+
+// Clear the old deck of cards by removing the HTML elements passed into it
 function clearDeck(deck) {
     deck[0].remove();
 }
 
-
+// Create a HTML list elements based on the deck that's passed into it.
+// It adds the proper classname to each card, add an eventlistener to each card
+// It then appends the list to the webpage
 function createDeckHTML(deck) {
-    let ul = document.createElement("ul");
+    var ul = document.createElement("ul");
     ul.className = `deck`;
     let container = document.getElementsByClassName("container");
     container[0].appendChild(ul);
-    for (let i=0; i<deck.length; i++){
-        let li = document.createElement("li");
+    for (var i=0; i<deck.length; i++){
+        var li = document.createElement("li");
         li.className = "card";
-        let inner = document.createElement("i");
+        var inner = document.createElement("i");
         inner.className = `fa fa-${deck[i]}`;
         ul.appendChild(li);
         li.appendChild(inner);
@@ -98,42 +117,55 @@ function createDeckHTML(deck) {
 }
 
 
+// When a user clicks on a card for the first time, it starts the game timer
+// - it displays the card if it has not been opened or matched already
+// - it allow only two cards to be displayed at a time
+// - if two cards are clicked, it checks if it is a match
+// - if all cards are matched, the user won the game and a congrats message popup
+// - if the two cards are no match, it hides the cards
 function processClick() {
+    // Test 1: User can only open two cards at a time
+    // Test 2: User can not click the same card
+    // Test 3: User can not click already matched cards
     if ((openedCards.length < 2) && (!isSameCard(this)) && (!isAlreadyMatched(this)) ) {
-       
+        // Count the number of clicks that do not result a match
         tryCounter++;
 
         displayCard(this);
         addOpenedList(this);
         incrementCounter();
 
-        
+        // Start the timer if it is the first click
         if (moveCounter === 1) {
-            timeInt = setInterval(startTimer, 900);
+            timeInt = setInterval(startTimer, 1000);
         }
+        // if two cards are open
         if(openedCards.length === 2){
-            
+            // if the two opened cards match
             if(openedCards[0] === openedCards[1]){
+                // Reset the failed match count back to 0
                 tryCounter = 0;
                 lockMatch();
                 removeOpenedList();
-                
-                if (matchCounter === 16){
+                // if all 16 cards are matched, stop the timer and display congrats
+                if (match === 16){
                     stopTimer();
-                    
+                    // Allow time for the matching animation to finish before display popup
                     setTimeout(function() {
                         return displayCongrats();}, 900
                     );
                 }
-            } else {  
+            } else {  // if the two opened cards do not match
+                // hide the cards after 1 second to allow user time to see the symbols
                 setTimeout(function(){
                     return hideCards();}, 900
                 );
-                
+                // remove the cards from the list of open cards
                 setTimeout(function() {
                     return removeOpenedList();}, 900);
 
-                
+                // Lower the stars if user has viewed 8 cards, and the 4 recent clicks are failed matches
+                // Do not lower the star rating if the rating is 1
                 if ((moveCounter >= 8) && (tryCounter >= 4) && (starRating > 1)){
                     lowerStars();
                 }
@@ -142,101 +174,119 @@ function processClick() {
     }
 }
 
-
+// Change the text of the timer on the webpage to reflect elapsed time in minutes and seconds
 function startTimer(){
     ++totalSeconds;
     function addZero(i) {
         return (i < 10) ? `0` + i : i;
     }
-    let min = addZero(Math.floor(totalSeconds/60));
-    let sec = addZero(totalSeconds - (min*60));
+    var min = addZero(Math.floor(totalSeconds/60));
+    var sec = addZero(totalSeconds - (min*60));
     timer.innerHTML = `${min}:${sec}`;
 }
 
-function stopTimer(){
-    clearInterval(timeInt);
-}
-
+// Reset the timer to default of 0 and the text on the webpage to 00:00
 function resetTimer(){
     clearInterval(timeInt);
     totalSeconds = 0;
     timer.innerHTML = `0:00`;
 }
 
+// Stop the timer
+function stopTimer(){
+    clearInterval(timeInt);
+}
 
+// Show the card by adding 'open' and 'show' class name
 function displayCard(item) {
     item.className = "card open show";
 }
 
+// Hide opened cards by removing the 'open' and 'show' class name
 function hideCards() {
-    let openClass = document.getElementsByClassName("open");
+    var openClass = document.getElementsByClassName("open");
     while (openClass.length){
         openClass[0].className = "card";
     }
 }
 
+// Return true if the item is already opened and false if not
 function isSameCard(item) {
-    let isSame = (item.className === "card open show") ? true : false;
+    const isSame = (item.className === "card open show") ? true : false;
     return isSame;
 }
 
+// Return true if the item is already matched and false if not
 function isAlreadyMatched(item) {
-    let isAM = (item.className === "card match") ? true : false;
+    const isAM = (item.className === "card match") ? true : false;
     return isAM;
 }
 
+// Add the item to a list of opened symbols
 function addOpenedList(item) {
-    let inner = item.childNodes;
-    for (let i=0; i<inner.length; i++){
-        let symbol = inner[i].className;
+    var inner = item.childNodes;
+    for (var i=0; i<inner.length; i++){
+        var symbol = inner[i].className;
+        // remove the 'fa fa-'
         symbol = symbol.slice(6);
         openedCards.push(symbol);
     }
 }
 
+// Increase the click(move) count by 1 and update the HTML text to the current value
 function incrementCounter() {
     moveCounter++;
     moves[0].innerHTML = moveCounter;
 }
 
+// Reset the click(move) to 0 and update the HTML text to the current value
 function resetCounter() {
     moves[0].innerHTML = moveCounter = 0;
 }
 
+// Keep the matched cards opened by setting the class name to 'card match'
+// Increase the match count by 2
 function lockMatch() {
-    let fa = `fa-${openedCards[0]}`;
-    let collection = document.getElementsByClassName(`${fa}`);
+    var fa = `fa-${openedCards[0]}`;
+    var collection = document.getElementsByClassName(`${fa}`);
 
-    for(let i=0; i<collection.length; i++){
+    for(var i=0; i<collection.length; i++){
         collection[i].parentElement.className = "card match";
     }
     matchCounter += 2;
 }
 
+// Remove the two items in the list of opened card symbols
 function removeOpenedList() {
     openedCards.pop();
     openedCards.pop();
 }
 
+// Create a div element to add to the page that will hold the congrats message later
+// Hide the div element initially
+//function build congrats
+
+
+// Display the congrats message with the move count, total time, star function displayCongrats() {
+    
+
+// Hide the congrats popup by adding the class 'dimmed'
+// Erase the congrats text messages
+//function hide congrats
+
+// Lower the star rating by one, and hide the last star by adding the class 'dimmed'
 function lowerStars() {
     starRating--;
     tryCounter = 0;
-    var stars = document.getElementsByClassName("fa-star");
+    const stars = document.getElementsByClassName("fa-star");
     stars[starRating].className = "fa fa-star dimmed";
 }
 
+// Reset the rating to 3 and show all stars by removing the class 'dimmed'
 function resetStars() {
     starRating = 3;
     var stars = document.getElementsByClassName("fa-star");
-    for (let i=0; i<3; i++){
+    for (var i=0; i<3; i++){
         stars[i].className = "fa fa-star";
     }
-
-function displayCongrats() {
-    const popup = document.getElementsByClassName(`congratsPopup`);
-    popup[0].className = `congratsPopup`;
-    popup[0].innerHTML =
-        `<h2 class="congratsHeading" > Congratulations! </h2>`;
-        const play = document.getElementsByClassName(`congratsPlay`);
-    play[0].addEventListener(`click`,reset);
 }
