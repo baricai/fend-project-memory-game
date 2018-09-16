@@ -255,30 +255,29 @@ function resetStars() {
         stars[i].className = "fa fa-star";
     }
 
- buildCongrats();
- hideCongrats();
+ var modal = document.getElementByClassName(`simpleModal`);
+var modalBtn = document.getElementByClassName(`modalBtn`);
+var closeBtn = document.getElementByClassName(`closeBtn`)[0];
 
-function buildCongrats() {
-    const page = document.getElementsByClassName(`container`);
-    const popup = document.createElement(`div`);
-    popup.className = `congratsPopup`;
-    popup.innerHTML = ``;
-    page[0].appendChild(popup);
+// add event listener, opne, close, outside
+modalBtn.addEventListener(`click`, openModal);
+closeBtn.addEventListener(`click`, closeModal);
+windowBtn.addEventListener(`click`, outsideClick);
+
+  
+//open the modal
+function openModal (){
+  modal.style.display = `block`;
 }
 
-function displayCongrats() {
-    var popup = document.getElementsByClassName(`congratsPopup`);
-    popup[0].className = `congratsPopup`;
-    popup[0].innerHTML =
-        `<h2 class="congratsHeading" > Congratulations! </h2>`;
-        
-    const play = document.getElementsByClassName(`congratsPlay`);
-    play[0].addEventListener(`click`,reset);
+
+//close modal
+function closeModal (){
+  modal.style.display = `none`;
 }
 
-function hideCongrats() {
-    const popup = document.getElementsByClassName(`congratsPopup`);
-    popup[0].className = `congratsPopup`;
-    popup[0].innerHTML = ``;
+function outsideClick(e){
+  if (e.target === modal){
+  modal.style.display = `none`;
 }
 }
