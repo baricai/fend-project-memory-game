@@ -135,8 +135,9 @@ function processClick() {
                     stopTimer();
                     swal({
                       title: "Congratulations you WON!",
-                       text: "With the time and start rating listed above!",
-                        icon: "success",
+                      text: "With the time and start rating listed above!",
+                       icon: "success",
+                       button: "play again",
                       });
                     //setTimeout(function() {
                         //return displayCongrats();}, 900
