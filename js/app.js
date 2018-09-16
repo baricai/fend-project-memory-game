@@ -130,6 +130,7 @@ function processClick() {
                 
                 if (matchCounter === 16){
                     stopTimer();
+                    openModal();
                     
                     setTimeout(function() {
                         return displayCongrats();}, 900
