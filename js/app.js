@@ -133,8 +133,11 @@ function processClick() {
                 
                 if (matchCounter === 16){
                     stopTimer();
-                    openModal();
-                    
+                    swal({
+                      title: "Congratulations you WON!",
+                       text: "You clicked the button!",
+                        icon: "success",
+                      });
                     //setTimeout(function() {
                         //return displayCongrats();}, 900
                     //);
