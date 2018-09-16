@@ -111,3 +111,7 @@ h1 {
 .dimmed {
     color: yellow;
 }
+
+#win-popup.zoomIn {
+  animation-delay: 1s;
+}
