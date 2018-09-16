@@ -135,7 +135,7 @@ function processClick() {
                     stopTimer();
                     swal({
                       title: "Congratulations you WON!",
-                       text: "You clicked the button!",
+                       text: "With the time and start rating listed above!",
                         icon: "success",
                       });
                     //setTimeout(function() {
