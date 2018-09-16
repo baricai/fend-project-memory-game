@@ -15,6 +15,9 @@ var matchCounter = 0;
 var starRating = 3;
 var tryCounter = 0;
 var timeInt = 0;
+var modal = 0;
+var modalBtn = 0;
+var closeBtn = 0;
 
 function reset() {
     openedCards = [];
@@ -257,7 +260,7 @@ function resetStars() {
     }
 }
 
- var modal = document.getElementByClassName(`simpleModal`);
+var modal = document.getElementByClassName(`simpleModal`);
 var modalBtn = document.getElementByClassName(`modalBtn`);
 var closeBtn = document.getElementByClassName(`closeBtn`)[0];
 
