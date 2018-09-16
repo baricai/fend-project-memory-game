@@ -257,7 +257,7 @@ function resetStars() {
     var stars = document.getElementsByClassName("fa-star");
     for (var i=0; i<3; i++){
         stars[i].className = "fa fa-star";
-    }
+ }
 }
 
 var modal = document.getElementByClassName(`simpleModal`);
