@@ -261,7 +261,7 @@ function resetStars() {
 function buildCongrats() {
     const page = document.getElementsByClassName(`container`);
     const popup = document.createElement(`div`);
-    popup.className = `congratsPopup dimmed`;
+    popup.className = `congratsPopup`;
     popup.innerHTML = ``;
     page[0].appendChild(popup);
 }
@@ -278,7 +278,7 @@ function displayCongrats() {
 
 function hideCongrats() {
     const popup = document.getElementsByClassName(`congratsPopup`);
-    popup[0].className = `congratsPopup dimmed`;
+    popup[0].className = `congratsPopup`;
     popup[0].innerHTML = ``;
 }
 }
