@@ -268,13 +268,13 @@ windowBtn.addEventListener(`click`, outsideClick);
 
   
 //open the modal
-function openModal (){
+function openModal() {
   modal.style.display = `block`;
 }
 
 
 //close modal
-function closeModal (){
+function closeModal() {
   modal.style.display = `none`;
 }
 
