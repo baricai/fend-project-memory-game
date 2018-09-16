@@ -135,9 +135,9 @@ function processClick() {
                     stopTimer();
                     openModal();
                     
-                    setTimeout(function() {
-                        return displayCongrats();}, 900
-                    );
+                    //setTimeout(function() {
+                        //return displayCongrats();}, 900
+                    //);
                 }
             } else {  
                 setTimeout(function(){
