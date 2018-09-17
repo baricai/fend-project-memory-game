@@ -133,7 +133,7 @@ function processClick() {
                 
                 if (matchCounter === 16){
                     stopTimer();
-                    reset();
+                    
                     swal({
                       title: "Congratulations you WON!",
                       text: "With the time and start rating listed above!",
