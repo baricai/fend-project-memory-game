@@ -12,14 +12,18 @@ https://baricai.github.io/fend-project-memory-game/
 
 ## Instructions
 
-The starter project has some HTML and CSS styling to display a static version of the Memory Game project. You'll need to convert this project from a static project to an interactive one. This will require modifying the HTML and CSS files, but primarily the JavaScript file.
+The project has some HTML and CSS styling that came with the files already since mentor mentioned that it would take time to code those from scratch.
 
-To get started, open `js/app.js` and start building out the app's functionality
+The JS file has some standard start up code, where first we had to declare variables, and functions for Memory Game project. The HTML and CSS files, were a little modified at the end, but primarily the JavaScript file was the one that was designed basically from scratch.
+
+At the end there's a pop up window specifying that the player has won the game, it's an interactive little window with the help from sweet alert that one of the mentors suggested to use.
+
+
 
 For specific, detailed instructions, look at the project instructions in the [Udacity Classroom](https://classroom.udacity.com/me).
 
 ## Contributing
 
-This repository is the starter code for _all_ Udacity students. Therefore, we most likely will not accept pull requests.
+This repository was the starter code for _all_ Udacity students. 
 
 For details, check out [CONTRIBUTING.md](CONTRIBUTING.md).
