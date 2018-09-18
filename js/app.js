@@ -149,7 +149,7 @@ function processClick() {
                             reset();
                             }
         });
-                    });
+                    
                     //setTimeout(function() {
                         //return displayCongrats();}, 900
                     //);
