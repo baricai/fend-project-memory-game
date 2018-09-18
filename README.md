@@ -12,58 +12,55 @@ https://baricai.github.io/fend-project-memory-game/
 
 ## Instructions
 
-The project has some HTML and CSS styling that came with the files already since mentor mentioned that it would take time to code those from scratch.
+-The project has some HTML and CSS styling that came with the files already since mentor mentioned that it would take time to code those from scratch.
 
-The JS file has some standard start up code, where first we had to declare variables, and functions for Memory Game project. The HTML and CSS files, were a little modified at the end, but primarily the JavaScript file was the one that was coded basically from scratch.
+-The JS file has some standard start up code, where first we had to declare variables, and functions for Memory Game project. The HTML and CSS files, were a little modified at the end, but primarily the JavaScript file was the one that was coded basically from scratch.
 
-At the end there's a pop up window specifying that the player has won the game, it's an interactive little window with the help from sweet alert that one of the mentors suggested to use.
+-At the end there's a pop up window specifying that the player has won the game, it's an interactive little window with the help from sweet alert that one of the mentors suggested to use.
 
-Getting Started
+**Getting Started
 
-These instructions will get you a copy of the project up and running on your local machine for development and testing purposes. See deployment for notes on how to deploy the project on a live system.
+-At the beginning a grid of cards needs to be defined, we create a list that holds all the cards, then all of our variables we are going to use, along with the functions.
 
-Prerequisites
+-We need to shuffle the list of cards using the provided shuffle method that came with the JS file, then add each card html's to the page.
 
-What things you need to install the software and how to install them
+-We need to set up our event listeners for a card, once the card is clicked it needs to display the card symbol, keep the card open and open another card, if both cards match we lock the cards in one position.
 
-Give examples
-Installing
+-If the cards do not match we flip back both cards, keeping the ones that are already matched.
 
-A step by step series of examples that tell you how to get a development env running
+-We need to set up a move counter this is very important because it will keep the number of licks we make until we finish the game which is matching all 16 cards. And also set up a star rating method.
 
-Say what the step will be
+-Also we need to set up a timer in minutes and seconds, so we know at the we how long it took to match all the cards.
 
-Give the example
-And repeat
+-At the end there has to be a pop up message that says "Congratulations you WON", along with the number of moves it took, stars, and time it took to finish.
 
-until finished
-End with an example of getting some data out of the system or using it for a little demo
+**Prerequisites
 
-Running the tests
+-For this game we need to have the preset version of html, and css to start the game, we will worry about design and colors at the end.
 
-Explain how to run the automated tests for this system
+-Also you need to have your stylesheets that you're going to use in this case, we used bootstrapcdn, fonts.googleapis, ajax.googleapis, all these came already with the initial github repository, I added the sweetalert, swal function for my pop up at the end.
 
-Break down into end to end tests
+**Installing
 
-Explain what these tests test and why
+Example for our variables: we could use let, const or var.
 
-Give an example
-And coding style tests
-
-Explain what these tests test and why
-
-Give an example
-Deployment
-
-Add additional notes about how to deploy this on a live system
-
-Built With
+Evry time you declare a function you need to test it in the console making sure it works
 
 
-For specific, detailed instructions, look at the project instructions in the [Udacity Classroom](https://classroom.udacity.com/me).
+**Running the tests
+
+-To test the code in JS I used codepen.io, I was able to see my html, css, and JS, and if I wanted I could use the console in the bottom, is nice because you can see what is what in different colors, also I used sublime to test all the JS at the end and clear up the errors with the consolein devtools in GoogleChrome.
+
+**Break down into end to end tests
+
+-It is crucial to write all your code in your code editor first, I used sublime once is clean and ready bring it to Github to  load the file. And always to use the console to test continuosuly. 
+
+
+
+
 
 ## Contributing
 
-This repository was the starter code for _all_ Udacity students. 
+This repository https://github.com/udacity/fend-project-memory-game was the starter code for _all_ Udacity students. 
 
-For details, check out [CONTRIBUTING.md](CONTRIBUTING.md).
+
