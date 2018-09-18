@@ -136,7 +136,7 @@ function processClick() {
                     
                     swal({
                         title: "Congratulations you WON!",
-                        text: "With the time and start rating listed above!",
+                        text: 'With ' + moveCounter + ' Moves and ' + starRating + ' Stars and took ' + totalSeconds + 'seconds to finish.',
                         icon: "success",
                         button: "play again",
                                      
