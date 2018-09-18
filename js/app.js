@@ -139,7 +139,17 @@ function processClick() {
                       text: "With the time and start rating listed above!",
                        icon: "success",
                        button: "play again",
-                      });
+                       swal({
+                      title: "Congratulations you WON!",
+                       text: 'With ' + moveCounter + ' Moves and ' + starRating + ' Stars and took ' + totalSeconds + 'to finish.',
+                       icon: "success",
+                       button: "play again",               
+                    }).then(function(isConfirm) {
+                            if (isConfirm) {
+                            reset();
+                            }
+        });
+                    });
                     //setTimeout(function() {
                         //return displayCongrats();}, 900
                     //);
