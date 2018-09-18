@@ -49,7 +49,7 @@ Evry time you declare a function you need to test it in the console making sure 
 
 **Running the tests
 
--To test the code in JS I used codepen.io, I was able to see my html, css, and JS, and if I wanted I could use the console in the bottom, is nice because you can see what is what in different colors, also I used sublime to test all the JS at the end and clear up the errors with the consolein devtools in GoogleChrome.
+-To test the code in JS I used codepen.io, I was able to see my html, css, and JS, and if I wanted I could use the console in the bottom, is nice because you can see what is what in different colors, also I used sublime to write all the JS code and once was ready I used the console in devtools in GoogleChrome to clear up the errors.
 
 **Break down into end to end tests
 
